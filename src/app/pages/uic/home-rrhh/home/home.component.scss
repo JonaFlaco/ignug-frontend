@@ -1,0 +1,54 @@
+@media(min-width: 1000px) {
+  .loginForm {
+    margin-right: 2%;
+    margin-left: 2%;
+  }
+}
+
+h1 {
+  font-family: Arial, sans-serif;
+  font-weight: bold;
+  font-size: 38px;
+}
+
+.custom-bg {
+  background: #FB8840;
+  color: rgb(224, 4, 4);
+}
+
+.rounded-image {
+  border-radius: 5%;
+  background: #ff640a;
+  color: rgb(224, 4, 4);
+}
+
+.imagen{
+  position: relative;
+  display: inline-block;
+}
+
+.shadow {
+  border-radius: 20px;
+  justify-content: center;
+}
+
+.texto1 {
+  position: absolute;
+  top: 10px;
+  left: 10%;
+  color: #6e6767;
+  font-size: 40px;
+  text-align: end;
+}
+
+.shadow:hover {
+  box-shadow: 10px 5px 5px rgb(214, 193, 193);
+  //background-color: alpha($color: #000000);
+  border-radius: 30px;
+  opacity: 80%;
+  color: #000000;
+  position: relative;
+  font-weight: bolder;
+}
+
+

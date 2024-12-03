@@ -1,0 +1,230 @@
+<app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
+<p-panel *ngIf="!isLoadingSkeleton"
+         class="p-fluid"
+         collapseIcon="pi pi-times"
+         [toggleable]="true"
+         (collapsedChange)="back()">
+  <ng-template pTemplate="header">
+    <i *ngIf="id===''" class="pi pi-user-plus mr-2"></i>
+    <i *ngIf="id!=''" class="pi pi-user-edit mr-2"></i>
+    <h2 class="panel-header">{{panelHeader}}</h2>
+  </ng-template>
+  <small [innerHTML]="this.messageService.requiredFields"></small>
+  <p-divider></p-divider>
+  <!-- Inicio del Formulario -->
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+<p-tabView>
+  <p-tabPanel header="Tema" leftIcon="pi pi-pencil" animationDuration="4ms">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="formgrid grid">
+         <!-- Name -->
+      <div class="field xl:col-8 lg:col-8 md:col-8 sm:col-12">
+        <label appLabel for="name" label="Nombres Completos:" [required]="nameField"></label>
+        <input pInputText type="name" id="name" formControlName="name"/>
+        <small appErrorMessage
+               [errors]="nameField.errors"
+               [touched]="nameField.touched"
+               [dirty]="nameField.dirty">
+        </small>
+      </div>
+      <!-- Career -->
+      <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+        <label appLabel for="career" label="Carrera:" [required]="careerField"></label>
+        <input pInputText type="career" id="career" formControlName="career"/>
+        <small appErrorMessage
+               [errors]="careerField.errors"
+               [touched]="careerField.touched"
+               [dirty]="careerField.dirty">
+        </small>
+      </div>
+    </div>
+      <div class="formgrid grid">
+        <!-- date -->
+     <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+       <label appLabel for="date" label="Fecha:" [required]="dateField"></label>
+       <input pInputText type="date" id="date" formControlName="date"/>
+       <small appErrorMessage
+              [errors]="dateField.errors"
+              [touched]="dateField.touched"
+              [dirty]="dateField.dirty">
+       </small>
+     </div>
+     <!-- Linea de Investigacion Institucional -->
+     <div class="field xl:col-8 lg:col-8 md:col-8 sm:col-12">
+       <label appLabel for="research" label="Línea de Investigación Institucional:" [required]="researchField"></label>
+       <input pInputText type="research" id="research" formControlName="research"/>
+       <small appErrorMessage
+              [errors]="researchField.errors"
+              [touched]="researchField.touched"
+              [dirty]="researchField.dirty">
+       </small>
+     </div>
+   </div>
+      <!-- theme -->
+      <div class="field">
+            <label appLabel for="theme" label="Tema del Anteproyecto:" [required]="themeField"></label>
+            <input pInputText type="theme" id="theme" formControlName="theme"/>
+            <small appErrorMessage
+                   [errors]="themeField.errors"
+                   [touched]="themeField.touched"
+                   [dirty]="themeField.dirty">
+            </small>
+          </div>
+    </form>
+  </p-tabPanel>
+  <!-- Segunda Parte del Formulario -->
+  <p-tabPanel header="Problema" leftIcon="pi pi-book" animationDuration="1ms">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+      <!-- Problema -->
+      <div class="field xl:col-11 lg:col-11 md:col-11 sm:col-12">
+        <label appLabel for="problem" label="Problema"[required]="problemField"></label>
+         <p-editor type="pInputText" id="problem" formControlName="problem" [style]="{'height':'350px'}"></p-editor>
+        <small appErrorMessage
+               [errors]="problemField.errors"
+               [touched]="problemField.touched"
+               [dirty]="problemField.dirty">
+        </small>
+      </div>
+</form>
+  </p-tabPanel>
+  <!-- Tercera Parte del Formulario -->
+  <p-tabPanel header="Objetivos" leftIcon="pi pi-list" animationDuration="4ms">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="formgrid grid">
+      <!-- Objetivo -->
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="objective" label="Objetivo Principal:" [required]="objectiveField"></label>
+         <p-editor formControlName="objective" [style]="{'height':'320px'}"></p-editor>
+        <small appErrorMessage
+               [errors]="objectiveField.errors"
+               [touched]="objectiveField.touched"
+               [dirty]="objectiveField.dirty">
+        </small>
+      </div>
+      <!-- Objetivos Especificos -->
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="objespecific" label="Objetivos Especificos:" [required]="objespecificField"></label>
+         <p-editor formControlName="objespecific" [style]="{'height':'320px'}"></p-editor>
+        <small appErrorMessage
+               [errors]="objespecificField.errors"
+               [touched]="objespecificField.touched"
+               [dirty]="objespecificField.dirty">
+        </small>
+      </div>
+    </div>
+    </form>
+  </p-tabPanel>
+  <!-- 3ra Parte-->
+  <p-tabPanel header="Descripción" leftIcon="pi pi-bars" animationDuration="4ms">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <!-- Justificación -->
+      <div class="formgrid grid" >
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="justification" label="Justificación:" [required]="justificationField"></label>
+         <p-editor formControlName="justification" [style]="{'height':'320px'}"></p-editor>
+        <small appErrorMessage
+               [errors]="justificationField.errors"
+               [touched]="justificationField.touched"
+               [dirty]="justificationField.dirty">
+        </small>
+      </div>
+      <!-- Alcance -->
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="scopeeme" label="Alcance:" [required]="scopeemeField"></label>
+         <p-editor formControlName="scopeeme" [style]="{'height':'320px'}"></p-editor>
+        <small appErrorMessage
+               [errors]="scopeemeField.errors"
+               [touched]="scopeemeField.touched"
+               [dirty]="scopeemeField.dirty">
+        </small>
+      </div>
+      </div>
+</form>
+  </p-tabPanel>
+  <!-- 4ta Parte -->
+  <p-tabPanel header="Antecedentes" leftIcon="pi pi-chart-bar" animationDuration="4ms">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <!-- Marco Teorico -->
+      <div class="formgrid grid">
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="theorical" label="Marco Teórico:" [required]="theoricalField"></label>
+         <p-editor formControlName="theorical" [style]="{'height':'320px'}"></p-editor>
+        <small appErrorMessage
+               [errors]="theoricalField.errors"
+               [touched]="theoricalField.touched"
+               [dirty]="theoricalField.dirty">
+        </small>
+      </div>
+      <!-- Marco Metodólico -->
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="methodological" label="Marco Metodólico:" [required]="methodologicalField"></label>
+         <p-editor formControlName="methodological" [style]="{'height':'320px'}"></p-editor>
+        <small appErrorMessage
+               [errors]="methodologicalField.errors"
+               [touched]="methodologicalField.touched"
+               [dirty]="methodologicalField.dirty">
+        </small>
+      </div>
+      </div>
+</form>
+  </p-tabPanel>
+  <!-- 4ta Parte -->
+  <p-tabPanel header="Metodología"  leftIcon="pi pi-search" animationDuration="4ms">
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <!-- Metodología -->
+      <div class="formgrid grid">
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="methodology" label="Metodólogia:" [required]="methodologyField"></label>
+        <p-editor formControlName="methodology" [style]="{'height':'350px'}"></p-editor>
+        <small appErrorMessage
+               [errors]="methodologyField.errors"
+               [touched]="methodologyField.touched"
+               [dirty]="methodologyField.dirty">
+        </small>
+      </div>
+      <!-- Bibliografía -->
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="bibliography" label="Bibliografía:" [required]="bibliographyField"></label>
+        <p-editor formControlName="bibliography" [style]="{'height':'300px'}"></p-editor>
+        <small appErrorMessage
+               [errors]="bibliographyField.errors"
+               [touched]="bibliographyField.touched"
+               [dirty]="bibliographyField.dirty">
+        </small>
+      </div>
+    </div>
+</form>
+  </p-tabPanel>
+  <p-tabPanel header="Presupuesto" leftIcon="pi pi-dollar" animationDuration="4ms">
+    <div class="form">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <label appLabel for="budget" label="Presupuesto:" [required]="budgetField"></label>
+      <p-editor formControlName="budget" [style]="{'height':'250px'}"></p-editor>
+      <small appErrorMessage
+             [errors]="budgetField.errors"
+             [touched]="budgetField.touched"
+             [dirty]="budgetField.dirty">
+      </small>
+    </div>
+  </div>
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button pButton pRipple id="btnBack" type="button"
+                label="Cancelar"
+                class="p-button-info p-button-outlined"
+                icon="pi pi-arrow-left"
+                [loading]="(loaded$|async)!"
+                (click)="back()"></button>
+      </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button pButton pRipple id="submit" type="submit"
+                label="Generar PDF"
+                icon="pi pi-save"
+                [loading]="(loaded$|async)!"></button>
+      </div>
+      <!-- <p-button label="Crear PDF" (onClick)="anteproyectoPdf()"></p-button> -->
+    </div>
+  </p-tabPanel>
+</p-tabView>
+</form>

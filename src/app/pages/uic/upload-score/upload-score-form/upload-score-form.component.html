@@ -1,0 +1,76 @@
+<app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
+<p-panel *ngIf="!isLoadingSkeleton" class="p-fluid" collapseIcon="pi pi-times" [toggleable]="true"
+  (collapsedChange)="back()">
+  <ng-template pTemplate="header">
+    <i *ngIf="id===''" class="pi pi-planning-plus mr-2"></i>
+    <i *ngIf="id!=''" class="pi pi-planning-edit mr-2"></i>
+    <h2 class="panel-header">{{panelHeader}}</h2>
+  </ng-template>
+  <small [innerHTML]="this.messageService.requiredFields"></small>
+  <p-divider></p-divider>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="formgrid grid">
+      <!-- name -->
+      <div class="field xl:col-8 lg:col-8 md:col-8 sm:col-12">
+        <label appLabel for="name" label="Nombres de los estudiantes:" [required]="nameField"></label>
+      <input pInputText type="text" id="name" formControlName="name" />
+      <small appErrorMessage [errors]="nameField.errors" [touched]="nameField.touched" [dirty]="nameField.dirty">
+      </small>
+    </div>
+     <!-- carerra-->
+     <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+      <label appLabel for="career" label="Carrera:" [required]="nameCareerField"></label>
+      <p-dropdown id="nameCareer" formControlName="nameCareer" dataKey="id" [options]="careers"
+        optionLabel="name" [filter]="true" filterBy="name" placeholder="Seleccionar carrera">
+        <ng-template pTemplate="selectedItem">
+          <div *ngIf="nameCareerField.value">
+            <div>{{nameCareerField.value.name}}</div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="item" let-item>
+          {{item.name}}
+        </ng-template>
+      </p-dropdown>
+      <small appErrorMessage [errors]="nameCareerField.errors" [touched]="nameCareerField.touched"
+        [dirty]="nameCareerField.dirty">
+      </small>
+    </div>
+  </div>
+  <div class="formgrid grid">
+
+
+  </div>
+
+
+    <div class="field">
+      <label appLabel for="dni" label="Cédula:" [required]="dniField"></label>
+      <input pInputText type="text" id="dni" formControlName="dni" />
+      <small appErrorMessage [errors]="dniField.errors" [touched]="dniField.touched"
+        [dirty]="dniField.dirty">
+      </small>
+    </div>
+    <div class="field">
+      <label appLabel for="score" label="Nota del examen Complexivo:" [required]="scoreField"></label>
+      <input pInputText type="number" id="score" formControlName="score" />
+      <small appErrorMessage [errors]="scoreField.errors" [touched]="scoreField.touched"
+        [dirty]="scoreField.dirty">
+      </small>
+    </div>
+    <div class="formgrid grid">
+
+      <!-- Estado -->
+
+      <!-- Estado -->
+    </div>
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button pButton pRipple id="btnBack" type="button" label="Cancelar" class="p-button-info p-button-outlined"
+          icon="pi pi-arrow-left" [loading]="(loaded$|async)!" (click)="back()"></button>
+      </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button pButton pRipple id="submit" type="submit" label="Guardar" icon="pi pi-save"
+          [loading]="(loaded$|async)!"></button>
+      </div>
+    </div>
+  </form>
+</p-panel>

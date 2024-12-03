@@ -1,0 +1,100 @@
+<app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
+<p-panel *ngIf="!isLoadingSkeleton"
+         class="p-fluid"
+         collapseIcon="pi pi-times"
+         [toggleable]="true"
+         (collapsedChange)="back()">
+  <ng-template pTemplate="header">
+    <i *ngIf="id===''" class="pi pi-user-plus mr-2"></i>
+    <i *ngIf="id!=''" class="pi pi-user-edit mr-2"></i>
+    <h2 class="panel-header">{{panelHeader}}</h2>
+  </ng-template>
+  <small [innerHTML]="this.messageService.requiredFields"></small>
+  <p-divider></p-divider>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <p-tabView>
+      <p-tabPanel header="Informacion General" leftIcon="pi pi-pencil" animationDuration="4ms">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="formgrid grid">
+            <!-- members -->
+         <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+           <label appLabel for="members" label="Integrantes:" [required]="membersField"></label>
+           <input pInputText type="string" id="members" formControlName="members"/>
+           <small appErrorMessage
+                  [errors]="membersField.errors"
+                  [touched]="membersField.touched"
+                  [dirty]="membersField.dirty">
+           </small>
+         </div>
+
+        <!-- carerra-->
+     <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <label appLabel for="career" label="Carrera:" [required]="nameCareerField"></label>
+      <p-dropdown id="nameCareer" formControlName="nameCareer" dataKey="id" [options]="careers"
+        optionLabel="name" [filter]="true" filterBy="name" placeholder="Seleccionar carrera">
+        <ng-template pTemplate="selectedItem">
+          <div *ngIf="nameCareerField.value">
+            <div>{{nameCareerField.value.name}}</div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="item" let-item>
+          {{item.name}}
+        </ng-template>
+      </p-dropdown>
+      <small appErrorMessage [errors]="nameCareerField.errors" [touched]="nameCareerField.touched"
+        [dirty]="nameCareerField.dirty">
+      </small>
+    </div>
+  </div>
+
+        </form>
+      </p-tabPanel>
+      <!-- Segunda Parte del Formulario -->
+      <p-tabPanel header="Informacion del proyecto" leftIcon="pi pi-book" animationDuration="1ms">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="field xl:col-11 lg:col-11 md:col-11 sm:col-12">
+            <label appLabel for="theme" label="Titulo del proyecto:" [required]="themeField"></label>
+            <input pInputText type="string" id="theme" formControlName="theme"/>
+             <!-- <small appErrorMessage
+                   [errors]="themeField.errors"
+                   [touched]="themeField.touched"
+                   [dirty]="themeField.dirty">
+            </small> -->
+
+           </div>
+          <div class="field xl:col-11 lg:col-11 md:col-11 sm:col-12">
+            <label appLabel for="summary" label="Resumen Ejecutivo"[required]="summaryField"></label>
+            <input pInputText type="string" id="summary" formControlName="summary"/>
+            <small appErrorMessage
+            [errors]="summaryField.errors"
+            [touched]="summaryField.touched"
+            [dirty]="summaryField.dirty">
+            </small>
+          </div>
+           <!-- Titutlo del proyecto -->
+
+
+        </form>
+      </p-tabPanel>
+
+    </p-tabView>
+
+      <!-- Botonos de guardar y eliminar -->
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button pButton pRipple id="btnBack" type="button"
+                label="Cancelar"
+                class="p-button-info p-button-outlined"
+                icon="pi pi-arrow-left"
+                [loading]="(loaded$|async)!"
+                (click)="back()"></button>
+      </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button pButton pRipple id="submit" type="submit"
+                label="Guardar"
+                icon="pi pi-save"
+                [loading]="(loaded$|async)!"></button>
+      </div>
+    </div>
+  </form>
+</p-panel>

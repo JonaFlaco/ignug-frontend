@@ -1,0 +1,48 @@
+<app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
+<p-panel *ngIf="!isLoadingSkeleton"
+         class="p-fluid"
+         collapseIcon="pi pi-times"
+         [toggleable]="true"
+         (collapsedChange)="back()">
+  <ng-template pTemplate="header">
+    <i *ngIf="id===''" class="pi pi-user-plus mr-2"></i>
+    <i *ngIf="id!=''" class="pi pi-user-edit mr-2"></i>
+    <h2 class="panel-header">{{panelHeader}}</h2>
+  </ng-template>
+  <small [innerHTML]="this.messageService.requiredFields"></small>
+  <p-divider></p-divider>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <!-- name -->
+    <div class="formgrid grid">
+   </div>
+
+   <div class="formgrid grid">
+     <!-- Fecha -->
+     <div class="field xl:col-5 lg:col-5 md:col-5 sm:col-12">
+       <label appLabel for="registeredAt" label="Fecha:" [required]="registeredAtField"></label>
+       <input pInputText type="date" id="registeredAt" formControlName="registeredAt"/>
+       <small appErrorMessage
+              [errors]="registeredAtField.errors"
+              [touched]="registeredAtField.touched"
+              [dirty]="registeredAtField.dirty">
+       </small>
+     </div>
+   </div>
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button pButton pRipple id="btnBack" type="button"
+                label="Cancelar"
+                class="p-button-info p-button-outlined"
+                icon="pi pi-arrow-left"
+                [loading]="(loaded$|async)!"
+                (click)="back()"></button>
+      </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button pButton pRipple id="submit" type="submit"
+                label="Guardar"
+                icon="pi pi-save"
+                [loading]="(loaded$|async)!"></button>
+      </div>
+    </div>
+  </form>
+</p-panel>

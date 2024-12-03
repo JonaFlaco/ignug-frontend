@@ -1,0 +1,98 @@
+<p-toolbar>
+  <div class="p-toolbar-group-left">
+    <button
+      pButton
+      type="button"
+      label="Refrescar"
+      class="p-button-info mr-2"
+      icon="pi pi-refresh"
+      (click)="findAll()"
+    ></button>
+  </div>
+  <div class="p-toolbar-group-right">
+    <div class="p-input-icon-right">
+      <h2>
+        <i class="pi pi-user"></i>
+        {{authService.auth.name}}</h2>
+    </div>
+  </div>
+</p-toolbar>
+<p-divider></p-divider>
+<div class="text-center">
+  <p-message [severity]="onMessage()" [text]="message"></p-message>
+</div>
+<p-divider></p-divider>
+
+<p-table
+  dataKey="id"
+  styleClass="p-datatable-gridlines"
+  [value]="rubricNotes"
+  [columns]="columns"
+  [loading]="(loaded$ | async)!"
+  [(selection)]="selectedRubricNote"
+  [responsive]="true"
+>
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th *ngFor="let col of columns" [pSortableColumn]="col.field" class="text-center">
+        {{ col.header }}
+        <p-sortIcon [field]="col.field"></p-sortIcon>
+      </th>
+      <!-- <th class="text-center">
+        <h3>Porcentaje para la Nota Final</h3>
+      </th> -->
+    </tr>
+  </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-rowData
+    let-columns="columns"
+    let-rowIndex="rowIndex"
+  >
+    <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
+      <td *ngFor="let col of columns" class="text-center">
+        <!--Fields-->
+         <!--Objects-->
+         <div *ngIf="rowData[col.field]?.id" [ngSwitch]="col.field">
+          <div *ngSwitchCase="'name'">
+            {{rowData[col.field].student.name}}
+          </div>
+        </div>
+
+        <!--Fields-->
+        <div *ngIf="!rowData[col.field]?.id" [ngSwitch]="col.field">
+          <div *ngSwitchCase="'identificationC'">
+            {{rowData['name'].student.identification_card}}
+          </div>
+          <div *ngSwitchCase="'Defense'">
+            <h3>Examén Practico</h3>
+          </div>
+          <div *ngSwitchDefault>{{rowData[col.field]}}</div>
+        </div>
+      </td>
+      <td class="text-center">
+        <div
+          *ngIf="
+            rowData['id'] !== authService.auth.id;
+            then thenBlock;
+            else elseBlock
+          "
+        ></div>
+        <ng-template #thenBlock>
+
+        </ng-template>
+        <ng-template #elseBlock>Current Event</ng-template>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage" let-columns>
+    <tr>
+      <td [attr.colspan]="columns.length">
+        {{ messageService.paginatorNoRecordsFound }}
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="summary">
+  </ng-template>
+</p-table>
+<!--</p-card>-->

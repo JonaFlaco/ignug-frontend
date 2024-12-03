@@ -1,0 +1,40 @@
+<div class="text-center">
+<p-toolbar>
+  <p-message severity="success" text="Convocatoria:  {{planning}}"></p-message>
+</p-toolbar>
+</div>
+<div class="formgrid grid">
+<div class="field xl:col-2 lg:col-2 md:col-2 sm:col-12"></div>
+<div class="field xl:col-9 lg:col-9 md:col-9 sm:col-12">
+  <div class="card-responsive" class="flex align-items-center">
+    <div class="flex flex-wrap gap-3">
+    <div class="flex align-items-center ">
+      <p-card header="Estudiantes Aprobados" subheader="Examén Practico" [style]="{width: '380px'}"
+        styleClass="p-card-shadow">
+        <ng-template pTemplate="header">
+          <img alt="Card" src="https://yavirac.edu.ec/img/slider/instalacion2.png">
+        </ng-template>
+        <p>Estos son los estudiantes que tuvieron una nota igual o superior a 70 en su examén practico</p>
+        <ng-template pTemplate="footer">
+          <p-button label="Ver Notas" (click)="redirectApproved()" icon="pi pi-eye"></p-button>
+        </ng-template>
+      </p-card>
+    </div>
+
+    <div class="flex align-items-center">
+      <p-card header="Estudiantes Reprobados" subheader="Examén Practico" [style]="{width: '380px'}"
+        styleClass="p-card-shadow">
+        <ng-template pTemplate="header">
+          <img alt="Card" src="https://yavirac.edu.ec/img/slider/instalacion2.png">
+        </ng-template>
+        <p>Estos son los estudiantes que tuvieron una nota inferior a 70 en su examén practico</p>
+        <ng-template pTemplate="footer">
+          <p-button label="Ver Notas" (click)="redirectReproved()" icon="pi pi-eye"></p-button>
+        </ng-template>
+      </p-card>
+    </div>
+  </div>
+  </div>
+</div>
+</div>
+

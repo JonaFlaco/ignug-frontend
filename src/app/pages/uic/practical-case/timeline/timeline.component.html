@@ -1,0 +1,34 @@
+<!-- CABECERA -->
+<p-panel>
+    <ng-template pTemplate="header">
+      <h2 class="panel-header">{{panelHeader}}</h2>
+    </ng-template>
+
+ <p-message *ngIf="practicalCase?.proyect"  severity="info" text="Proyecto:  {{practicalCase?.proyect}}"></p-message> 
+  
+  <!-- Componente -->
+  <p-timeline [value]="practicalCases" align="alternate">
+    <ng-template pTemplate="marker" let-practicalCase>
+        <span class="custom-marker shadow-2" [style.backgroundColor]="practicalCase.color">
+            <i [ngClass]="practicalCase.icon"></i>
+        </span>
+    </ng-template>
+    <ng-template pTemplate="content" let-practicalCase>
+        <p-card [header]="practicalCase.status" [subheader]="practicalCase.subheader">
+            <p>{{practicalCase.content}}</p>
+            <p>{{practicalCase.content2}}</p>
+
+        </p-card>
+    </ng-template>
+  </p-timeline>
+  
+  <p-divider></p-divider>
+  
+  <!-- BOTTON DE REGRESO -->
+  <button pButton pRipple id="btnBack" type="button"
+  label="REGRESAR"
+  class="p-button-info p-button-outlined"
+  icon="pi pi-arrow-left"
+  [loading]="(loaded$|async)!"
+  (click)="back()"
+  ></button>

@@ -1,0 +1,64 @@
+<!--<p-card>-->
+  <p-toolbar>
+    <div class="p-toolbar-group-left">
+      <button pButton type="button" label="Refrescar"
+              class="p-button-info mr-2"
+              icon="pi pi-refresh"
+              (click)="findAll()"></button>
+    </div>
+    <div class="p-toolbar-group-right">
+      <div class="p-input-icon-right">
+        <input type="text" pInputText [formControl]="search" placeholder="Buscar">
+        <i class="pi pi-search" [ngClass]="{'pi-spin pi-spinner':(loaded$|async)}"></i>
+      </div>
+    </div>
+  </p-toolbar>
+
+  <p-calendar [touchUI]="true" [readonlyInput]="true"></p-calendar>
+  <p-divider></p-divider>
+  <div class="flex align-items-center gap-1">
+    <p-checkbox name="group1" value="New York"  inputId="ny"></p-checkbox>
+    <label for="ny">New York</label>
+</div>
+
+<div class="flex align-items-center gap-1">
+<p-checkbox name="group1" value="San Francisco"  inputId="sf"></p-checkbox>
+<label for="sf">San Francisco</label>
+</div>
+
+<div class="flex align-items-center gap-1">
+<p-checkbox name="group1" value="Los Angeles"  inputId="la"></p-checkbox>
+<label for="la">Los Angeles</label>
+</div>
+<p-divider></p-divider>
+<p-colorPicker  [inline]="true"></p-colorPicker>
+<p-divider></p-divider>
+<p-listbox  optionLabel="name" [style]="{'width':'15rem'}"></p-listbox>
+<p-divider></p-divider>
+<div class="flex flex-wrap gap-3">
+  <div class="flex align-items-center">
+      <p-radioButton name="pizza" value="Cheese"  inputId="ingredient1"></p-radioButton>
+      <label for="ingredient1" class="ml-2">Cheese</label>
+  </div>
+
+  <div class="flex align-items-center">
+      <p-radioButton name="pizza" value="Mushroom"  inputId="ingredient2"></p-radioButton>
+      <label for="ingredient2" class="ml-2">Mushroom</label>
+  </div>
+
+  <div class="flex align-items-center">
+      <p-radioButton name="pizza" value="Pepper"  inputId="ingredient3"></p-radioButton>
+      <label for="ingredient3" class="ml-2">Pepper</label>
+  </div>
+
+  <div class="flex align-items-center">
+      <p-radioButton name="pizza" value="Onion"  inputId="ingredient4"></p-radioButton>
+      <label for="ingredient4" class="ml-2">Onion</label>
+  </div>
+</div>
+<p-divider></p-divider>
+<p-rating  [disabled]="true" [cancel]="false"></p-rating>
+<p-divider></p-divider>
+<p-speedDial type="circle" [radius]="80" buttonClassName="p-button-warning"></p-speedDial>
+<p-divider></p-divider>
+

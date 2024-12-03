@@ -1,0 +1,132 @@
+<app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
+<p-panel *ngIf="!isLoadingSkeleton"
+         class="p-fluid"
+         collapseIcon="pi pi-times"
+         [toggleable]="true"
+         (collapsedChange)="back()">
+  <ng-template pTemplate="header">
+    <i *ngIf="id===''" class="pi pi-user-plus mr-2"></i>
+    <i *ngIf="id!=''" class="pi pi-user-edit mr-2"></i>
+    <h2 class="panel-header">{{panelHeader}}</h2>
+  </ng-template>
+  <small [innerHTML]="this.messageService.requiredFields"></small>
+  <p-divider></p-divider>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <div class="field">
+      <label appLabel for="name" label="Nombre:" [required]="nameField"></label>
+      <p-dropdown id="name"
+      formControlName="name"
+      dataKey="id"
+      [options]="names"
+      optionLabel="name"
+      [filter]="true"
+      filterBy="name"
+      placeholder="Select">
+<ng-template pTemplate="selectedItem">
+<div *ngIf="nameField.value">
+<div>{{nameField.value.name}}</div>
+</div>
+</ng-template>
+<ng-template pTemplate="item" let-item>
+{{item.name}}
+</ng-template>
+</p-dropdown>
+      <small appErrorMessage
+             [errors]="nameField.errors"
+             [touched]="nameField.touched"
+             [dirty]="nameField.dirty">
+      </small>
+    </div>
+
+    <div class="field">
+      <label appLabel for="planning" label="Convocatoria:" [required]="planningField"></label>
+      <p-dropdown id="planning"
+      formControlName="planning"
+      dataKey="id"
+      [options]="plannings"
+      optionLabel="name"
+      [filter]="true"
+      filterBy="name"
+      placeholder="Select">
+<ng-template pTemplate="selectedItem">
+<div *ngIf="planningField.value">
+<div>{{planningField.value.name}}</div>
+</div>
+</ng-template>
+<ng-template pTemplate="item" let-item>
+{{item.name}}
+</ng-template>
+</p-dropdown>
+      <small appErrorMessage
+             [errors]="planningField.errors"
+             [touched]="planningField.touched"
+             [dirty]="planningField.dirty">
+      </small>
+    </div>
+    <div class="formgrid grid">
+
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="startDate" label="Fecha de inicio:" [required]="startDateField"></label>
+        <p-calendar formControlName="startDate" id="startDate" dateFormat="dd/mm/yy"></p-calendar>
+        <small appErrorMessage
+               [errors]="startDateField.errors"
+               [touched]="startDateField.touched"
+               [dirty]="startDateField.dirty">
+        </small>
+      </div>
+
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="endDate" label="Fecha de fin:" [required]="endDateField"></label>
+        <p-calendar formControlName="endDate" id="endDate" dateFormat="dd/mm/yy"></p-calendar>
+        <small appErrorMessage
+               [errors]="endDateField.errors"
+               [touched]="endDateField.touched"
+               [dirty]="endDateField.dirty">
+        </small>
+      </div>
+    </div>
+
+    <div class="formgrid grid">
+
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="sort" label="Orden:" [required]="sortField"></label>
+        <input pInputText type="number" id="sort" formControlName="sort"/>
+        <small appErrorMessage
+               [errors]="sortField.errors"
+               [touched]="sortField.touched"
+               [dirty]="sortField.dirty">
+        </small>
+      </div>
+
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="isEnable" label="Estado:" [required]="isEnableField"></label>
+        <p><p-inputSwitch formControlName="isEnable"></p-inputSwitch></p>
+        <small appErrorMessage
+               [errors]="isEnableField.errors"
+               [touched]="isEnableField.touched"
+               [dirty]="isEnableField.dirty">
+        </small>
+      </div>
+
+    </div>
+
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button pButton pRipple id="btnBack" type="button"
+                label="Cancelar"
+                class="p-button-info p-button-outlined"
+                icon="pi pi-arrow-left"
+                [loading]="(loaded$|async)!"
+                (click)="back()"></button>
+      </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button pButton pRipple id="submit" type="submit"
+                label="Guardar"
+                icon="pi pi-save"
+                [loading]="(loaded$|async)!"></button>
+      </div>
+    </div>
+
+  </form>
+</p-panel>

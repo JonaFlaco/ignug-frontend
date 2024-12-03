@@ -1,0 +1,32 @@
+<p-toolbar>
+  <div class="p-toolbar-group-left">
+    <button pButton pRipple id="btnBack" type="button" label="REGRESAR" class="p-button-info p-button-outlined mr-2"
+      icon="pi pi-arrow-left" [loading]="(loaded$|async)!" (click)="back()"></button>
+    <button pButton type="button" label="Refrescar" class="p-button-info mr-2" icon="pi pi-refresh"
+      (click)="findAll()"></button>
+    <button *ngIf="selectedComplexSchedules.length > 0" pButton type="button" label="Eliminar Fase"
+      class="p-button-danger" icon="pi pi-trash" (click)="removeAll()"></button>
+  </div>
+  <div class="p-toolbar-group-right">
+    <div class="p-input-icon-right">
+      <button pButton type="button" label="Agregar actividades al Crongrama" class="p-button-success mr-2" icon="pi pi-ellipsis-v"
+      (click)="redirectCase()"></button>
+    </div>
+  </div>
+</p-toolbar>
+<p-timeline [value]="timelines" align="alternate" styleClass="customized-timeline">
+  <ng-template pTemplate="marker" let-timeline>
+    <span class="custom-marker shadow-2" [ngStyle]="{backgroundColor:'var(--primary-color)', color: 'var(--primary-color-text)', borderRadius: 'var(--border-radius)', padding: '1rem'}">
+      <i class="pi pi-calendar"></i>
+    </span>
+  </ng-template>
+  <ng-template pTemplate="content" let-timeline>
+    <p-card header="{{timeline.activity}}" subheader="{{ timeline.startDate|date }} Hasta {{ timeline.endDate|date }}">
+      <img alt="Card" [style]="{width: '360px'}" src="https://yavirac.edu.ec/img/slider/instalacion1-1.png">
+      <p>
+        {{timeline.description}}
+      </p>
+      <button pButton label="Read more" class="p-button-text"></button>
+    </p-card>
+  </ng-template>
+</p-timeline>

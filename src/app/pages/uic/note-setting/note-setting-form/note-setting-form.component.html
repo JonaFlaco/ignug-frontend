@@ -1,0 +1,129 @@
+<app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
+<p-panel
+  *ngIf="!isLoadingSkeleton"
+  class="p-fluid"
+  collapseIcon="pi pi-times"
+  [toggleable]="true"
+  (collapsedChange)="back()"
+>
+  <ng-template pTemplate="header">
+    <i *ngIf="id === ''" class="pi pi-user-plus mr-2"></i>
+    <i *ngIf="id != ''" class="pi pi-user-edit mr-2"></i>
+    <h2 class="panel-header">{{ panelHeader }}</h2>
+  </ng-template>
+  <small [innerHTML]="this.messageService.requiredFields"></small>
+  <p-divider></p-divider>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="formgrid grid">
+
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="evaluation"
+          label="Evaluación Continua:"
+          [required]="evaluationField"
+        ></label>
+        <input
+          pInputText
+          type="number"
+          id="evaluation"
+          formControlName="evaluation"
+        />
+        <small
+          appErrorMessage
+          [errors]="evaluationField.errors"
+          [touched]="evaluationField.touched"
+          [dirty]="evaluationField.dirty"
+        >
+        </small>
+      </div>
+
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="document"
+          label="Documento (Sow):"
+          [required]="documentField"
+        ></label>
+        <input
+          pInputText
+          type="number"
+          id="document"
+          formControlName="document"
+        />
+        <small
+          appErrorMessage
+          [errors]="documentField.errors"
+          [touched]="documentField.touched"
+          [dirty]="documentField.dirty"
+        >
+        </small>
+      </div>
+    </div>
+
+    <div class="formgrid grid">
+      <!-- Estudiante -->
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="student"
+          label="Estudiante:"
+          [required]="studentField"
+        ></label>
+        <p-dropdown
+          id="student"
+          formControlName="student"
+          dataKey="id"
+          [options]="students"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          placeholder="Selecionar Docente"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="studentField.value">
+              <div>{{ studentField.value.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            {{ item.name }}
+          </ng-template>
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="studentField.errors"
+          [touched]="studentField.touched"
+          [dirty]="studentField.dirty"
+        >
+        </small>
+    </div>
+  </div>
+
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button
+          pButton
+          pRipple
+          id="btnBack"
+          type="button"
+          label="Cancelar"
+          class="p-button-info p-button-outlined"
+          icon="pi pi-arrow-left"
+          [loading]="(loaded$ | async)!"
+          (click)="back()"
+        ></button>
+      </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button
+          pButton
+          pRipple
+          id="submit"
+          type="submit"
+          label="Guardar"
+          icon="pi pi-save"
+          [loading]="(loaded$ | async)!"
+        ></button>
+      </div>
+    </div>
+  </form>
+</p-panel>

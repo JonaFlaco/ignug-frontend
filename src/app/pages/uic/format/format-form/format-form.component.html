@@ -1,0 +1,103 @@
+<app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
+<p-panel *ngIf="!isLoadingSkeleton"
+         class="p-fluid"
+         collapseIcon="pi pi-times"
+         [toggleable]="true"
+         (collapsedChange)="back()">
+  <ng-template pTemplate="header">
+    <i *ngIf="id===''" class="pi pi-user-plus mr-2"></i>
+    <i *ngIf="id!=''" class="pi pi-user-edit mr-2"></i>
+    <h2 class="panel-header">{{panelHeader}}</h2>
+  </ng-template>
+  <small [innerHTML]="this.messageService.requiredFields"></small>
+  <p-divider></p-divider>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="name" label="Nombre del documento:" [required]="nameField"></label>
+        <input pInputText type="string" id="name" formControlName="name"/>
+        <small appErrorMessage
+               [errors]="nameField.errors"
+               [touched]="nameField.touched"
+               [dirty]="nameField.dirty">
+        </small>
+      </div>
+
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="description" label="Descripción del documento:" [required]="descriptionField"></label>
+        <input pInputText type="string" id="description" formControlName="description"/>
+        <small appErrorMessage
+               [errors]="descriptionField.errors"
+               [touched]="descriptionField.touched"
+               [dirty]="descriptionField.dirty">
+        </small>
+      </div>
+
+
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="state" label="Estado de la solicitud:" [required]="stateField"></label>
+        <p><p-inputSwitch formControlName="state"></p-inputSwitch></p>
+        <small appErrorMessage
+               [errors]="stateField.errors"
+               [touched]="stateField.touched"
+               [dirty]="stateField.dirty">
+        </small>
+      </div>
+
+    </div>
+    <!-- <p-fileUpload
+    id="archivo"
+    chooseLabel="Buscar"
+    chooseIcon="pi pi-search"
+    uploadLabel="Subir archivos"
+    [auto]="true"
+    accept="application/pdf"
+    [customUpload]="true"
+    (onRemove)="removerArchivo()"
+    (uploadHandler)="cargarArchivo($event)">
+  </p-fileUpload> -->
+      <!-- <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="file" label="Archivo:" [required]="fileField"></label>
+        <input pInputText type="string" id="file" formControlName="file"/>
+        <small appErrorMessage
+               [errors]="fileField.errors"
+               [touched]="fileField.touched"
+               [dirty]="fileField.dirty">
+        </small>
+   </div> -->
+
+   <!-- Subir Archivo -->
+   <div class="formgrid grid">
+    <div class="field xl:col-12 lg:col-12 md:col-12 sm:col-12">
+      <label appLabel for="file" label="Documento:"></label>
+
+      <p-fileUpload
+        name="myfile[]"
+        [customUpload]="true"
+        (uploadHandler)="myUploader($event)"
+      ></p-fileUpload>
+    </div>
+  </div>
+
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button pButton pRipple id="btnBack" type="button"
+                label="Cancelar"
+                class="p-button-info p-button-outlined"
+                icon="pi pi-arrow-left"
+                [loading]="(loaded$|async)!"
+                (click)="back()"></button>
+      </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button pButton pRipple id="submit" type="submit"
+                label="Guardar"
+                icon="pi pi-save"
+                [loading]="(loaded$|async)!"></button>
+      </div>
+
+
+    </div>
+
+  </form>
+</p-panel>

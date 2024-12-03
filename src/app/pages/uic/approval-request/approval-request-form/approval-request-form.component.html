@@ -1,0 +1,120 @@
+<app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
+<p-panel *ngIf="!isLoadingSkeleton"
+         class="p-fluid"
+         collapseIcon="pi pi-times"
+         [toggleable]="true"
+         (collapsedChange)="back()">
+  <ng-template pTemplate="header">
+    <i *ngIf="id===''" class="pi pi-user-plus mr-2"></i>
+    <i *ngIf="id!=''" class="pi pi-user-edit mr-2"></i>
+    <h2 class="panel-header">{{panelHeader}}</h2>
+  </ng-template>
+  <small [innerHTML]="this.messageService.requiredFields"></small>
+  <p-divider></p-divider>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="formgrid grid">
+    <!-- name -->
+    <div class="field xl:col-8 lg:col-8 md:col-8 sm:col-12">
+          <label appLabel for="name" label="Nombres Completos:" [required]="nameField"></label>
+          <input pInputText type="name" id="name" formControlName="name"/>
+          <small appErrorMessage
+                 [errors]="nameField.errors"
+                 [touched]="nameField.touched"
+                 [dirty]="nameField.dirty">
+          </small>
+        </div>
+        <!-- cedula -->
+        <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+          <label appLabel for="cide" label="Cedula del Estudiante:" [required]="cideField"></label>
+          <input pInputText type="cide" id="cide" formControlName="cide"/>
+          <small appErrorMessage
+                 [errors]="cideField.errors"
+                 [touched]="cideField.touched"
+                 [dirty]="cideField.dirty">
+          </small>
+        </div>
+      </div>
+        <!-- teacher -->
+        <div class="formgrid grid">
+          <!-- teacher -->
+          <div class="field xl:col-8 lg:col-8 md:col-8 sm:col-12">
+          <label appLabel for="teacher" label="Dirigido a:" [required]="teacherField"></label>
+          <input pInputText type="teacher" id="teacher" formControlName="teacher"/>
+          <small appErrorMessage
+                 [errors]="teacherField.errors"
+                 [touched]="teacherField.touched"
+                 [dirty]="teacherField.dirty">
+          </small>
+        </div>
+        <!-- Career -->
+        <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+            <label appLabel for="career" label="Carrera del Estudiante" [required]="careerField"></label>
+            <input pInputText type="career" id="career" formControlName="career"/>            <small appErrorMessage
+                   [errors]="careerField.errors"
+                   [touched]="careerField.touched"
+                   [dirty]="careerField.dirty">
+            </small>
+          </div>
+        </div>
+        <div class="formgrid grid">
+        <!-- Period -->
+        <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+          <label appLabel for="period" label="Periodo Lectivo:" [required]="periodField"></label>
+          <input pInputText type="period" id="period" formControlName="period"/>
+          <small appErrorMessage
+                 [errors]="periodField.errors"
+                 [touched]="periodField.touched"
+                 [dirty]="periodField.dirty">
+          </small>
+        </div>
+        <!-- Fecha -->
+        <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+          <label appLabel for="date" label="Fecha:" [required]="dateField"></label>
+          <input pInputText type="date" id="date" formControlName="date"/>
+          <small appErrorMessage
+                 [errors]="dateField.errors"
+                 [touched]="dateField.touched"
+                 [dirty]="dateField.dirty">
+          </small>
+        </div>
+        <!-- cell -->
+        <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+          <label appLabel for="cell" label="Celular del Estudiante:" [required]="cellField"></label>
+          <input pInputText type="cell" id="cell" formControlName="cell"/>
+          <small appErrorMessage
+                 [errors]="cellField.errors"
+                 [touched]="cellField.touched"
+                 [dirty]="cellField.dirty">
+          </small>
+        </div>
+      </div>
+                <!-- email -->
+                <div class="field xl:col-9 lg:col-9 md:col-9 sm:col-12">
+                  <label appLabel for="email" label="E-Mail:" [required]="emailField"></label>
+                  <input pInputText type="email" id="email" formControlName="email"/>
+                  <small appErrorMessage
+                         [errors]="emailField.errors"
+                         [touched]="emailField.touched"
+                         [dirty]="emailField.dirty">
+                  </small>
+                </div>
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button pButton pRipple id="btnBack" type="button"
+                label="Cancel"
+                class="p-button-info p-button-outlined"
+                icon="pi pi-arrow-left"
+                [loading]="(loaded$|async)!"
+                (click)="back()"></button>
+      </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button pButton pRipple id="submit" type="submit"
+                label="Generar PDF"
+                icon="pi pi-save"
+                [loading]="(loaded$|async)!"></button>
+                <!-- <p-button label="Crear PDF" (onClick)="createPdf()"></p-button> -->
+      </div>
+    </div>
+  </form>
+</p-panel>
+

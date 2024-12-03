@@ -1,0 +1,122 @@
+<app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
+<p-panel *ngIf="!isLoadingSkeleton" class="p-fluid" collapseIcon="pi pi-times" [toggleable]="true"
+  (collapsedChange)="back()">
+  <ng-template pTemplate="header">
+    <i *ngIf="id===''" class="pi pi-planning-plus mr-2"></i>
+    <i *ngIf="id!=''" class="pi pi-planning-edit mr-2"></i>
+    <h2 class="panel-header">{{panelHeader}}</h2>
+  </ng-template>
+  <small [innerHTML]="this.messageService.requiredFields"></small>
+  <p-divider></p-divider>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="formgrid grid">
+      <!-- name -->
+      <div class="field xl:col-8 lg:col-8 md:col-8 sm:col-12">
+        <label appLabel for="name" label="Nombre:" [required]="nameField"></label>
+      <input pInputText type="text" id="name" formControlName="name" />
+      <small appErrorMessage [errors]="nameField.errors" [touched]="nameField.touched" [dirty]="nameField.dirty">
+      </small>
+    </div>
+     <!-- carerra-->
+     <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+      <label appLabel for="career" label="Carrera:" [required]="careerField"></label>
+      <p-dropdown id="career" formControlName="career" dataKey="id" [options]="careers"
+        optionLabel="name" [filter]="true" filterBy="name" placeholder="Seleccionar carrera">
+        <ng-template pTemplate="selectedItem">
+          <div *ngIf="careerField.value">
+            <div>{{careerField.value.name}}</div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="item" let-item>
+          {{item.name}}
+        </ng-template>
+      </p-dropdown>
+      <small appErrorMessage [errors]="careerField.errors" [touched]="careerField.touched"
+        [dirty]="careerField.dirty">
+      </small>
+    </div>
+  </div>
+  <div class="formgrid grid">
+    <!-- madality -->
+  <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+    <label appLabel for="nameModality" label="Modalidad:" [required]="nameModalityField"></label>
+    <p-dropdown id="nameModality" formControlName="nameModality" dataKey="id" [options]="nameModalities"
+      optionLabel="name" [filter]="true" filterBy="name" placeholder="Seleccionar Modalidad">
+      <ng-template pTemplate="selectedItem">
+        <div *ngIf="nameModalityField.value">
+          <div>{{nameModalityField.value.name}}</div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="item" let-item>
+        {{item.name}}
+      </ng-template>
+    </p-dropdown>
+    <small appErrorMessage [errors]="nameModalityField.errors" [touched]="nameModalityField.touched"
+      [dirty]="nameModalityField.dirty">
+    </small>
+  </div>
+  <!-- year-->
+  <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+    <label appLabel for="year" label="Año Lectivo:" [required]="yearField"></label>
+    <p-dropdown id="year" formControlName="year" dataKey="id" [options]="years" optionLabel="year"
+      [filter]="true" filterBy="name" placeholder="Seleccionar año lectivo">
+      <ng-template pTemplate="selectedItem">
+        <div *ngIf="yearField.value">
+          <div>{{yearField.value.year}}</div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="item" let-item>
+        {{item.year}}
+      </ng-template>
+    </p-dropdown>
+    <small appErrorMessage [errors]="yearField.errors" [touched]="yearField.touched"
+      [dirty]="yearField.dirty">
+    </small>
+  </div>
+  </div>
+    <!-- Carrera -->
+
+    <div class="field">
+      <label appLabel for="description" label="Descripción:" [required]="descriptionField"></label>
+      <input pInputText type="text" id="description" formControlName="description" />
+      <small appErrorMessage [errors]="descriptionField.errors" [touched]="descriptionField.touched"
+        [dirty]="descriptionField.dirty">
+      </small>
+    </div>
+
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="date" label="Fecha de Inicio:" [required]="startDateField"></label>
+        <p-calendar [showIcon]="true" formControlName="startDate" id="startDate" dateFormat="dd/mm/yy"></p-calendar>
+        <small appErrorMessage [errors]="startDateField.errors" [touched]="startDateField.touched"
+          [dirty]="startDateField.dirty">
+        </small>
+      </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="date" label="Fecha Fín:" [required]="endDateField"></label>
+        <p-calendar [showIcon]="true"  formControlName="endDate" id="endDate" dateFormat="dd/mm/yy"></p-calendar>
+        <small appErrorMessage [errors]="endDateField.errors" [touched]="endDateField.touched"
+          [dirty]="endDateField.dirty">
+        </small>
+      </div>
+      <!-- Estado -->
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="state" label="Estado:" [required]="stateField"></label>
+        <p><p-inputSwitch formControlName="state"></p-inputSwitch></p>
+        <small appErrorMessage [errors]="stateField.errors" [touched]="stateField.touched" [dirty]="stateField.dirty">
+        </small>
+      </div>
+      <!-- Estado -->
+    </div>
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button pButton pRipple id="btnBack" type="button" label="Cancelar" class="p-button-info p-button-outlined"
+          icon="pi pi-arrow-left" [loading]="(loaded$|async)!" (click)="back()"></button>
+      </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button pButton pRipple id="submit" type="submit" label="Guardar" icon="pi pi-save"
+          [loading]="(loaded$|async)!"></button>
+      </div>
+    </div>
+  </form>
+</p-panel>

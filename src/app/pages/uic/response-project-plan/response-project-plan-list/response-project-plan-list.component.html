@@ -1,0 +1,159 @@
+<!--<p-card>-->
+<p-toolbar>
+  <div class="p-toolbar-group-left">
+    <button
+      pButton
+      type="button"
+      label="Asignar tutor"
+      class="p-button-success mr-2"
+      icon="pi pi-arrow-left"
+      (click)="redirectListForm()"
+    ></button>
+    <button
+      pButton
+      type="button"
+      label="Refresh"
+      class="p-button-info mr-2"
+      icon="pi pi-refresh"
+      (click)="findAll()"
+    ></button>
+  </div>
+  <div class="p-toolbar-group-right">
+    <div class="p-input-icon-right">
+      <input
+        type="text"
+        pInputText
+        [formControl]="search"
+        placeholder="Search"
+      />
+      <i
+        class="pi pi-search"
+        [ngClass]="{ 'pi-spin pi-spinner': (loaded$ | async) }"
+      ></i>
+    </div>
+  </div>
+</p-toolbar>
+<p-paginator
+  [rows]="paginator.limit"
+  [totalRecords]="paginator.totalItems"
+  (onPageChange)="paginate($event)"
+></p-paginator>
+<p-table
+  dataKey="id"
+  styleClass="p-datatable-striped"
+  [value]="responseProjectPlans"
+  [columns]="columns"
+  [loading]="(loaded$ | async)!"
+  [(selection)]="selectResponseProjectPlan"
+  [responsive]="true"
+>
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th style="width: 3rem">
+        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+      </th>
+      <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+        {{ col.header }}
+        <p-sortIcon [field]="col.field"></p-sortIcon>
+      </th>
+      <th class="text-center">
+        <button
+          pButton
+          pRipple
+          type="button"
+          class="p-button-help p-button-outlined p-button-rounded"
+          icon="pi pi-cog"
+        ></button>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-rowData
+    let-columns="columns"
+    let-rowIndex="rowIndex"
+  >
+    <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
+      <td>
+        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+      </td>
+
+      <td *ngFor="let col of columns">
+        <!--Fields-->
+        <div [ngSwitch]="col.field">
+          <div *ngSwitchCase="'answeredAt'">
+            {{ rowData[col.field] | date }}
+          </div>
+          <div *ngSwitchCase="'requestedAt'">
+            {{ rowData[col.field] | date }}
+          </div>
+          <div *ngSwitchCase="'tutor'">
+            {{
+              rowData["tutor"]
+                ? rowData["tutor"].name.trim()
+                : "Sin asignar"
+            }}
+          </div>
+          <div *ngSwitchCase="'studentSelect'">
+            {{
+              rowData["studentSelect"]
+                ? rowData["studentSelect"].name.trim()
+                : "Sin asignar"
+            }}
+          </div>
+          <div *ngSwitchDefault>{{ rowData[col.field] }}</div>
+        </div>
+      </td>
+      <td class="text-center">
+        <div
+          *ngIf="
+            rowData['id'] !== authService.auth.id;
+            then thenBlock;
+            else elseBlock
+          "
+        ></div>
+        <ng-template #thenBlock>
+          <button
+            pButton
+            pRipple
+            *ngIf="rowData.state.toUpperCase() == 'APROBADA'"
+            (click)="redirectViewForm(rowData.id)"
+            type="button"
+            icon="pi pi-eye"
+            class="p-button-rounded p-button-info"
+          ></button>
+          <button
+            pButton
+            pRipple
+            *ngIf="rowData.state.toUpperCase() == 'REVISADO'"
+            (click)="redirectEditForm(rowData.id)"
+            type="button"
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-info"
+          ></button>
+          <button
+            pButton
+            pRipple
+            *ngIf="rowData.state.toUpperCase() == 'RECHAZADA'"
+            (click)="redirectEditForm(rowData.id)"
+            type="button"
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-info"
+          ></button>
+        </ng-template>
+        <ng-template #elseBlock>Current ProjectPlan</ng-template>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage" let-columns>
+    <tr>
+      <td [attr.colspan]="columns.length">
+        {{ messageService.paginatorNoRecordsFound }}
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="summary">
+    {{ messageService.paginatorTotalRegisters(paginator) }}
+  </ng-template>
+</p-table>
+<!--</p-card>-->

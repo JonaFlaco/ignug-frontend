@@ -1,0 +1,56 @@
+<div class="text-center">
+<p-toolbar>
+  <p-message severity="success" text="Convocatoria:  {{planning}}"></p-message>
+  <div class="p-toolbar-group-right">
+    <div class="p-input-icon-right">
+
+      <head>
+        <link rel="stylesheet" type="text/css" href="home-note.component.scss">
+      </head>
+      <h1>
+        <i class="pi pi-user"></i>
+        {{authService.auth.name}}
+      </h1>
+    </div>
+  </div>
+</p-toolbar>
+</div>
+<div class="formgrid grid">
+<div class="field xl:col-2 lg:col-2 md:col-2 sm:col-12"></div>
+<div class="field xl:col-9 lg:col-9 md:col-9 sm:col-12">
+  <div class="card-responsive" class="flex align-items-center">
+    <div class="flex flex-wrap gap-3">
+    <!-- <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12"></div> -->
+    <div class="flex align-items-center ">
+      <p-card header="Estudiantes Aprobados" subheader="Examén Teórico" [style]="{width: '380px'}"
+        styleClass="p-card-shadow">
+        <ng-template pTemplate="header">
+          <img alt="Card" src="https://yavirac.edu.ec/img/slider/instalacion2.png">
+        </ng-template>
+        <p>Estos son los estudiantes que tuvieron una nota igual o superior a 70 en su examén teórico</p>
+        <ng-template pTemplate="footer">
+          <p-button label="Ver Notas" (click)="redirectAprobed()" icon="pi pi-eye"></p-button>
+          <!-- <p-button label="Cancel" icon="pi pi-times" styleClass="p-button-secondary" [style]="{'margin-left': '.5em'}"></p-button> -->
+        </ng-template>
+      </p-card>
+    </div>
+
+    <div class="flex align-items-center">
+      <p-card header="Estudiantes Reprobados" subheader="Examén Teórico" [style]="{width: '380px'}"
+        styleClass="p-card-shadow">
+        <ng-template pTemplate="header">
+          <img alt="Card" src="https://yavirac.edu.ec/img/slider/instalacion2.png">
+        </ng-template>
+        <p>Estos son los estudiantes que tuvieron una nota inferior a 70 en su examén teórico</p>
+        <ng-template pTemplate="footer">
+          <p-button label="Ver Notas" (click)="redirectReprobed()" icon="pi pi-eye"></p-button>
+          <!-- <p-button label="Cancel" icon="pi pi-times" styleClass="p-button-secondary" [style]="{'margin-left': '.5em'}"></p-button> -->
+        </ng-template>
+      </p-card>
+    </div>
+  </div>
+  </div>
+
+</div>
+</div>
+

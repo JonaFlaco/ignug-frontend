@@ -1,0 +1,95 @@
+<!--<p-card>-->
+  <p-toolbar>
+    <div class="p-toolbar-group-left">
+      <button pButton type="button" label="Crear Malla de Requerimiento del Estudiante"
+              class="p-button-success mr-2"
+              icon="pi pi-plus"
+              (click)="redirectCreateForm()"></button>
+      <button pButton type="button" label="Actualizar"
+              class="p-button-info mr-2"
+              icon="pi pi-refresh"
+              (click)="findAll()"></button>
+      <button *ngIf="selectedMeshStudentRequirements.length>0" pButton type="button" label="Eliminar Malla de requisito de estudiante"
+              class="p-button-danger"
+              icon="pi pi-trash"
+              (click)="removeAll()"></button>
+    </div>
+    <div class="p-toolbar-group-right">
+      <div class="p-input-icon-right">
+        <input type="text" pInputText [formControl]="search" placeholder="Buscar">
+        <i class="pi pi-search" [ngClass]="{'pi-spin pi-spinner':(loaded$|async)}"></i>
+      </div>
+    </div>
+  </p-toolbar>
+  <p-paginator
+    [rows]="paginator.limit"
+    [totalRecords]="paginator.totalItems"
+    (onPageChange)="paginate($event)"></p-paginator>
+  <p-table
+    dataKey="id"
+    styleClass="p-datatable-striped"
+    [value]="meshStudentRequirements"
+    [columns]="columns"
+    [loading]="(loaded$|async)!"
+    [(selection)]="selectedMeshStudentRequirements"
+    [responsive]="true">
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+          {{col.header}}
+          <p-sortIcon [field]="col.field"></p-sortIcon>
+        </th>
+        <th class="text-center">
+          <button pButton pRipple type="button" class="p-button-help p-button-outlined p-button-rounded"
+                  icon="pi pi-cog"></button>
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+      <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
+        <td>
+          <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+        </td>
+
+        <td *ngFor="let col of columns">
+          <div *ngIf="rowData[col.field]?.id" [ngSwitch]="col.field">
+            <div *ngSwitchCase="'requirement'">
+              {{rowData[col.field].name}}
+            </div>
+          </div>
+          <!--Fields-->
+          <div *ngIf="!rowData[col.field]?.id" [ngSwitch]="col.field">
+            <div *ngSwitchCase="'approved'">
+              <p-tag
+                [value]="rowData['approved']?'Aprobado':'Rechazado'"
+                [pTooltip]="rowData['maxAttempts']===0?'Exceeded the maximum number of attempts allowed':''"
+                [severity]="checkState(rowData)"></p-tag>
+            </div>
+            <div *ngSwitchDefault>{{rowData[col.field]}}</div>
+          </div>
+        <td class="text-center">
+          <div *ngIf="rowData['id']!==authService.auth.id; then thenBlock else elseBlock"></div>
+          <ng-template #thenBlock>
+            <p-splitButton icon="pi pi-ellipsis-v"
+                           [model]="actionButtons"
+                           (onDropdownClick)="selectMeshStudentRequirement(rowData)"></p-splitButton>
+          </ng-template>
+          <ng-template #elseBlock>Current MeshStudentRequirement</ng-template>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage" let-columns>
+      <tr>
+        <td [attr.colspan]="columns.length">
+          {{messageService.paginatorNoRecordsFound}}
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      {{messageService.paginatorTotalRegisters(paginator)}}
+    </ng-template>
+  </p-table>
+  <!--</p-card>-->

@@ -1,0 +1,22 @@
+<p-accordion>
+  <p-accordionTab>
+    <ng-template pTemplate="header">
+      <i class="pi pi-key mr-2"></i>
+      <h3>Listado de Notas</h3>
+    </ng-template>
+    <ng-template pTemplate="content">
+      <app-evaluation-list></app-evaluation-list>
+    </ng-template>
+  </p-accordionTab>
+  <p-accordionTab>
+    <ng-template pTemplate="header">
+      <i class="pi pi-user-edit mr-2"></i>
+      <h2>Evaluación Continúa</h2>
+    </ng-template>
+    <ng-template pTemplate="content">
+      <p-divider></p-divider>
+      <app-evaluation-form></app-evaluation-form>
+    </ng-template>
+  </p-accordionTab>
+</p-accordion>
+

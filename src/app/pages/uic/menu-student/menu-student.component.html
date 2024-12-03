@@ -1,0 +1,25 @@
+<app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
+<p-panel *ngIf="!isLoadingSkeleton"
+         class="p-fluid"
+         collapseIcon="pi pi-times"
+         [toggleable]="true">
+  <ng-template pTemplate="header">
+    <i *ngIf="id===''" class="pi pi-planning-plus mr-2"></i>
+    <i *ngIf="id!=''" class="pi pi-planning-edit mr-2"></i>
+    <h2 class="panel-header">{{panelHeader}}</h2>
+  </ng-template>
+  <small [innerHTML]="this.messageService.requiredFields"></small>
+  <p-divider></p-divider>
+  <p-accordion>
+    <p-accordionTab header="Generar Anteproyecto">
+      <p-button label="Generar PDF"  (onClick)="direction()"></p-button>
+    </p-accordionTab>
+    <p-accordionTab header="Generar Solicitud">
+      <p-button label="Generar PDF" ></p-button>
+    </p-accordionTab>
+    <p-accordionTab header="Enviar Solicitud de Anteproyecto">
+      <p-button label="Enviar Solicitud" ></p-button>
+    </p-accordionTab>
+    <p-accordionTab>
+    </p-accordionTab>
+</p-accordion>

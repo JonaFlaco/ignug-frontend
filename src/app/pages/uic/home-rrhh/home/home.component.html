@@ -1,0 +1,73 @@
+<p-divider></p-divider>
+<div class="text-center">
+  <head>
+    <link rel="stylesheet" type="text/css" href="home.component.scss">
+</head>
+  <h1>Bienvenido al Sistema UIC  {{authService.auth.name}}</h1>
+</div>
+<p-divider></p-divider>
+<div class="text-center">
+  <div class="imagen">
+    <div class="formgrid grid">
+      <div class="field xl:col-2 lg:col-2 md:col-2 sm:col-12"></div>
+      <div class="field xl:col-9 lg:col-9 md:col-9 sm:col-12">
+        <div class="flex flex-wrap gap-3">
+          <div *ngIf="showEditCalendar()" class="flex align-items-center">
+            <a [routerLink]="['/uic/complex-schedules']">
+              <!-- <div class="texto1">Perris</div> -->
+              <img alt="Card" src="https://cdn-icons-png.flaticon.com/512/3652/3652267.png" class="shadow" alt="Image" width="185">
+              <h4>EDITAR CRONOGRAMA</h4>
+            </a>
+          </div>
+          <div *ngIf="showCalendar()" class="flex align-items-center">
+            <a [routerLink]="['/uic/cronograma']">
+              <!-- <div class="texto1">Perris</div> -->
+              <img src="https://cdn-icons-png.flaticon.com/512/2858/2858416.png" class="shadow" alt="Image" width="185">
+              <h4>VER CRONOGRAMA</h4>
+            </a>
+          </div>
+          <div *ngIf="showNote()" class="flex align-items-center">
+            <a [routerLink]="['/uic/theorical-notes']">
+              <!-- <div class="texto1">hola</div> -->
+              <img src="https://cdn.icon-icons.com/icons2/2898/PNG/512/exam_icon_182959.png" class="shadow" alt="Image" width="185">
+              <h4>COLOCAR NOTAS EXAMÉN TEÓRICO</h4>
+            </a>
+          </div>
+          <div *ngIf="showNote()" class="flex align-items-center">
+            <a [routerLink]="['/uic/home-note']">
+              <!-- <div class="texto1">Perris</div> -->
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDdLf6hYxd4RXgrhMl563iVNUyaSnO_215ww&usqp=CAU" class="shadow" alt="Image" width="185">
+              <h4>VER NOTAS</h4>
+            </a>
+          </div>
+          <div *ngIf="showPesos()" class="flex align-items-center">
+            <a [routerLink]="['/uic/rating-weights']">
+              <!-- <div class="texto1">Perris</div> -->
+              <img src="https://cdn-icons-png.flaticon.com/512/610/610128.png" class="shadow" alt="Image" width="185">
+              <h4>PESOS CALIFICACIONES</h4>
+            </a>
+          </div>
+          <div *ngIf="showMemorandum()" class="flex align-items-center">
+            <a [routerLink]="['/uic/memorandum-home']">
+              <!-- <div class="texto1">Perris</div> -->
+              <img src="https://cdn-icons-png.flaticon.com/512/1363/1363601.png" class="shadow" alt="Image" width="185">
+              <h4>MEMORANDOS</h4>
+            </a>
+          </div>
+          <div *ngIf="showViewNote()" class="flex align-items-center">
+            <a [routerLink]="['/uic/total-notes']">
+              <!-- <div class="texto1">Perris</div> -->
+              <img src="https://thumbs.dreamstime.com/b/vector-de-color-icono-bloc-notas-personal-contorno-vectores-plano-233370452.jpg" class="shadow" alt="Image" width="185">
+              <h4>CALIFICACIONES PERSONALES</h4>
+            </a>
+          </div>
+          <!-- <div *ngIf="showMemorandum()" class="flex align-items-center">
+            <a [routerLink]="['/uic/enrollments']">
+              <img src="https://cdn-icons-png.flaticon.com/512/2247/2247728.png" class="shadow" alt="Image" width="185">
+              <h4>INSCRIPCIONES</h4>
+            </a>
+          </div> -->
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,43 @@
+<!-- CABEZERA -->
+<p-panel>
+  <ng-template pTemplate="header">
+    <h2 class="panel-header font-black	">{{panelHeader}}</h2>
+  </ng-template>
+
+  <p-divider></p-divider>
+
+<!-- Nombre Convocatoria -->
+<div class="card flex ">
+  <p-fieldset legend="Curso:  {{preparationCourse?.name}}" [toggleable]="true">
+      <p>
+          {{preparationCourse.description}}
+      </p>
+  </p-fieldset>
+</div>
+<br>
+
+<!-- Componente -->
+<p-timeline [value]="signatures" align="alternate">
+  <ng-template pTemplate="marker" let-signature>
+      <span class="custom-marker shadow-2" [style.backgroundColor]="signature.color">
+          <i [ngClass]="signature.icon"></i>
+      </span>
+  </ng-template>
+  <ng-template pTemplate="content" let-signature>
+      <p-card [header]="signature.status" [subheader]="signature.subheader">
+          <p>{{signature.content}}</p>
+          <p>{{signature.aDet}}</p>
+      </p-card>
+  </ng-template>
+
+</p-timeline>
+<p-divider></p-divider>
+
+<!-- BOTTON DE REGRESO -->
+<button pButton pRipple id="btnBack" type="button"
+label="REGRESAR"
+class="p-button-info p-button-outlined"
+icon="pi pi-arrow-left"
+[loading]="(loaded$|async)!"
+(click)="back()"
+></button>

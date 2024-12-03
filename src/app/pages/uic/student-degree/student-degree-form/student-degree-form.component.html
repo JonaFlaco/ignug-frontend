@@ -1,0 +1,216 @@
+<app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
+<p-panel *ngIf="!isLoadingSkeleton"
+         class="p-fluid"
+         collapseIcon="pi pi-times"
+         [toggleable]="true"
+         (collapsedChange)="back()">
+  <ng-template pTemplate="header">
+    <i *ngIf="id===''" class="pi pi-calendar-plus mr-2"></i>
+    <i *ngIf="id!=''" class="pi pi-user-edit mr-2"></i>
+    <h2 class="panel-header">{{panelHeader}}</h2>
+  </ng-template>
+  <small [innerHTML]="this.messageService.requiredFields"></small>
+  <p-divider></p-divider>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <!-- estudiante -->
+    <div class="field">
+      <label appLabel for="nameEstudiante" label="Estudiante:" [required]="nameEstudianteField"></label>
+      <p-dropdown id="nameEstudiante"
+                  formControlName="nameEstudiante"
+                  dataKey="id"
+                  [options]="nameEstudiantes"
+                  optionLabel="name"
+                  [filter]="true"
+                  filterBy="name"
+                  placeholder="Seleccionar Estudiante">
+        <ng-template pTemplate="selectedItem">
+          <div *ngIf="nameEstudianteField.value">
+            <div>{{nameEstudianteField.value.name}}</div>
+          </div>
+        </ng-template>
+          <ng-template pTemplate="item" let-item>
+          {{item.name}}
+        </ng-template>
+      </p-dropdown>
+      <small appErrorMessage
+             [errors]="nameEstudianteField.errors"
+             [touched]="nameEstudianteField.touched"
+             [dirty]="nameEstudianteField.dirty">
+      </small>
+    </div>
+
+    <!-- madality -->
+    <div class="field">
+      <label appLabel for="nameModality" label="Modalidad:" [required]="nameModalityField"></label>
+      <p-dropdown id="nameModality"
+                  formControlName="nameModality"
+                  dataKey="id"
+                  [options]="nameModalities"
+                  optionLabel="name"
+                  [filter]="true"
+                  filterBy="name"
+                  placeholder="Seleccionar Convocatoria">
+        <ng-template pTemplate="selectedItem">
+          <div *ngIf="nameModalityField.value">
+            <div>{{nameModalityField.value.name}}</div>
+          </div>
+        </ng-template>
+          <ng-template pTemplate="item" let-item>
+          {{item.name}}
+        </ng-template>
+      </p-dropdown>
+      <small appErrorMessage
+             [errors]="nameModalityField.errors"
+             [touched]="nameModalityField.touched"
+             [dirty]="nameModalityField.dirty">
+      </small>
+    </div>
+
+
+    <!-- planning -->
+    <div class="field">
+      <label appLabel for="namePlanning" label="Convocatoria:" [required]="namePlanningField"></label>
+      <p-dropdown id="namePlanning"
+                  formControlName="namePlanning"
+                  dataKey="id"
+                  [options]="namePlannings"
+                  optionLabel="name"
+                  [filter]="true"
+                  filterBy="name"
+                  placeholder="Seleccionar Convocatoria">
+        <ng-template pTemplate="selectedItem">
+          <div *ngIf="namePlanningField.value">
+            <div>{{namePlanningField.value.name}}</div>
+          </div>
+        </ng-template>
+          <ng-template pTemplate="item" let-item>
+          {{item.name}}
+        </ng-template>
+      </p-dropdown>
+      <small appErrorMessage
+             [errors]="namePlanningField.errors"
+             [touched]="namePlanningField.touched"
+             [dirty]="namePlanningField.dirty">
+      </small>
+    </div>
+
+
+    <!-- Planning
+    <div class="field">
+      <label appLabel for="plannings" label="Convocatoria:" [required]="planningsField"></label>
+      <p-dropdown id="plannings"
+      formControlName="plannings"
+      dataKey="id"
+      [options]="plannings"
+      optionLabel="plannings"
+      [filter]="true"
+      filterBy="plannings"
+      placeholder="Seleccionar convocatoria">
+<ng-template pTemplate="selectedItem">
+<div *ngIf="planningsField.value">
+<div>{{planningsField.value.plannings}}</div>
+</div>
+</ng-template>
+<ng-template pTemplate="item" let-item>
+{{item.plannings}}
+</ng-template>
+</p-dropdown>
+      <small appErrorMessage
+             [errors]="planningsField.errors"
+             [touched]="planningsField.touched"
+             [dirty]="planningsField.dirty">
+      </small>
+    </div> -->
+
+    <div class="formgrid grid">
+
+      <!--  title -->
+       <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+         <label appLabel for="title" label="Titulo del proyecto:" [required]="titleField"></label>
+         <input pInputText type="text" id="title" formControlName="title"/>
+         <small appErrorMessage
+                [errors]="titleField.errors"
+                [touched]="titleField.touched"
+                [dirty]="titleField.dirty">
+         </small>
+       </div>
+
+       <!-- observation-->
+
+     <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+       <label appLabel for="observation" label="Observación:" [required]="observationField"></label>
+       <input pInputText type="text" id="observation" formControlName="observation"/>
+       <small appErrorMessage
+              [errors]="observationField.errors"
+              [touched]="observationField.touched"
+              [dirty]="observationField.dirty">
+       </small>
+     </div>
+    </div>
+
+
+     <div class="formgrid grid">
+      <!-- requerimientos -->
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="requerimientos" label="Requerimientos:" [required]="requerimientosField"></label>
+        <input pInputText type="text" id="requerimientos" formControlName="requerimientos"/>
+        <small appErrorMessage
+               [errors]="requerimientosField.errors"
+               [touched]="requerimientosField.touched"
+               [dirty]="requerimientosField.dirty">
+        </small>
+      </div>
+
+      <!-- state -->
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="state" label="Requerido:" [required]="stateField"></label>
+        <p><p-inputSwitch formControlName="state"></p-inputSwitch></p>
+    <small appErrorMessage
+               [errors]="stateField.errors"
+               [touched]="stateField.touched"
+               [dirty]="stateField.dirty">
+      </small>
+      </div>
+    </div>
+
+    <!--  file -->
+    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <label appLabel for="file" label="Subir Archivo:" [required]="fileField"></label>
+      <input pInputText type="text" id="file" formControlName="file"/>
+      <small appErrorMessage
+             [errors]="fileField.errors"
+             [touched]="fileField.touched"
+             [dirty]="fileField.dirty">
+      </small>
+    </div>
+
+
+  <!-- botones -->
+
+  <div class="formgrid grid">
+    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <button pButton pRipple id="btnBack" type="button"
+              label="Cancelar"
+              class="p-button-info p-button-outlined"
+              icon="pi pi-arrow-left"
+              [loading]="(loaded$|async)!"
+              (click)="back()"></button>
+    </div>
+    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <button pButton pRipple id="submit" type="submit"
+              label="Guardar"
+              icon="pi pi-save"
+              [loading]="(loaded$|async)!"></button>
+    </div>
+
+
+  </div>
+
+</form>
+</p-panel>
+
+
+
+
+

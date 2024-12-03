@@ -1,0 +1,180 @@
+<app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
+<p-panel
+  *ngIf="!isLoadingSkeleton"
+  class="p-fluid"
+  collapseIcon="pi pi-times"
+  [toggleable]="true"
+  (collapsedChange)="back()"
+>
+  <ng-template pTemplate="header">
+    <i *ngIf="id === ''" class="pi pi-user-plus mr-2"></i>
+    <i *ngIf="id != ''" class="pi pi-user-edit mr-2"></i>
+    <h2 class="panel-header">{{ panelHeader }}</h2>
+  </ng-template>
+  <small [innerHTML]="this.messageService.requiredFields"></small>
+  <p-divider></p-divider>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="type"
+          label="Tipo de Memorando:"
+          [required]="typeField"
+        ></label>
+        <p-dropdown
+          [options]="types"
+          [(ngModel)]="selectedTypes"
+          optionLabel="name"
+          optionValue="name"
+          formControlName="type"
+        ></p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="typeField.errors"
+          [touched]="typeField.touched"
+          [dirty]="typeField.dirty"
+        >
+        </small>
+      </div>
+
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="nameTeacher"
+          label="Docente encargado:"
+          [required]="nameTeacherField"
+        ></label>
+        <p-dropdown
+          id="nameTeacher"
+          formControlName="nameTeacher"
+          dataKey="id"
+          [options]="nameTeachers"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          placeholder="Selecionar Docente"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="nameTeacherField.value">
+              <div>{{ nameTeacherField.value.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            {{ item.name }}
+          </ng-template>
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="nameTeacherField.errors"
+          [touched]="nameTeacherField.touched"
+          [dirty]="nameTeacherField.dirty"
+        >
+        </small>
+      </div>
+    </div>
+
+    <div class="formgrid grid">
+      <!-- Estudiante -->
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="nameStudent"
+          label="Estudiante:"
+          [required]="nameStudentField"
+        ></label>
+        <p-dropdown
+          id="nameStudent"
+          formControlName="nameStudent"
+          dataKey="id"
+          [options]="nameStudents"
+          optionLabel="name"
+          [filter]="true"
+          filterBy="name"
+          placeholder="Selecionar Estudiante"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="nameStudentField.value">
+              <div>{{ nameStudentField.value.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            {{ item.name }}
+          </ng-template>
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="nameStudentField.errors"
+          [touched]="nameStudentField.touched"
+          [dirty]="nameStudentField.dirty"
+        >
+        </small>
+      </div>
+
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="topic"
+          label="Tema del caso"
+          [required]="topicField"
+        ></label>
+        <p-dropdown
+          id="topic"
+          formControlName="topic"
+          dataKey="id"
+          [options]="topics"
+          optionLabel="proyect"
+          [filter]="true"
+          filterBy="proyect"
+          placeholder="selecionar"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="topicField.value">
+              <div>{{ topicField.value.proyect }}</div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            {{ item.proyect }}
+          </ng-template>
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="topicField.errors"
+          [touched]="topicField.touched"
+          [dirty]="topicField.dirty"
+        >
+        </small>
+      </div>
+
+    </div>
+
+
+    <!-- Botones -->
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button
+          pButton
+          pRipple
+          id="btnBack"
+          type="button"
+          label="Cancelar"
+          class="p-button-info p-button-outlined"
+          icon="pi pi-arrow-left"
+          [loading]="(loaded$ | async)!"
+          (click)="back()"
+        ></button>
+      </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button
+          pButton
+          pRipple
+          id="submit"
+          type="submit"
+          label="Guardar"
+          icon="pi pi-save"
+          [loading]="(loaded$ | async)!"
+        ></button>
+      </div>
+    </div>
+  </form>
+</p-panel>

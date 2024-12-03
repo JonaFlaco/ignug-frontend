@@ -1,0 +1,108 @@
+<app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
+<p-panel
+  *ngIf="!isLoadingSkeleton"
+  class="p-fluid"
+  collapseIcon="pi pi-times"
+  [toggleable]="true"
+  (collapsedChange)="back()"
+>
+  <ng-template pTemplate="header">
+    <i *ngIf="id === ''" class="pi pi-user-plus mr-2"></i>
+    <i *ngIf="id != ''" class="pi pi-user-edit mr-2"></i>
+    <h2 class="panel-header">{{ panelHeader }}</h2>
+  </ng-template>
+  <small [innerHTML]="this.messageService.requiredFields"></small>
+  <p-divider></p-divider>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <div class="formgrid grid">
+      <!-- Nota Examen Teórico -->
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="noteOne"
+          label="Examen Teórico:"
+          [required]="noteOneField"
+        ></label>
+        <input
+          pInputText
+          type="number"
+          id="noteOne"
+          formControlName="noteOne"
+        />
+        <small
+          appErrorMessage
+          [errors]="noteOneField.errors"
+          [touched]="noteOneField.touched"
+          [dirty]="noteOneField.dirty"
+        >
+        </small>
+      </div>
+
+      <!-- Nota Examen Práctio -->
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="noteTwo"
+          label="Examen Práctio:"
+          [required]="noteTwoField"
+        ></label>
+        <input pInputText type="number" id="noteTwo" formControlName="noteTwo" />
+        <small
+          appErrorMessage
+          [errors]="noteTwoField.errors"
+          [touched]="noteTwoField.touched"
+          [dirty]="noteTwoField.dirty"
+        >
+        </small>
+      </div>
+    </div>
+
+    <div class="formgrid grid">
+      <!-- Nota Final -->
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="finalNote"
+          label="Nota final:"
+          [required]="finalNoteField"
+        ></label>
+        <input pInputText type="number" id="finalNote" formControlName="finalNote" />
+        <small
+          appErrorMessage
+          [errors]="finalNoteField.errors"
+          [touched]="finalNoteField.touched"
+          [dirty]="finalNoteField.dirty"
+        >
+        </small>
+      </div>
+    </div>
+
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button
+          pButton
+          pRipple
+          id="btnBack"
+          type="button"
+          label="Cancelar"
+          class="p-button-info p-button-outlined"
+          icon="pi pi-arrow-left"
+          [loading]="(loaded$ | async)!"
+          (click)="back()"
+        ></button>
+      </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button
+          pButton
+          pRipple
+          id="submit"
+          type="submit"
+          label="Guardar"
+          icon="pi pi-save"
+          [loading]="(loaded$ | async)!"
+        ></button>
+      </div>
+    </div>
+  </form>
+</p-panel>

@@ -1,0 +1,182 @@
+<app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
+<p-panel
+  *ngIf="!isLoadingSkeleton"
+  class="p-fluid"
+  collapseIcon="pi pi-times"
+  [toggleable]="true"
+  (collapsedChange)="back()"
+>
+  <ng-template pTemplate="header">
+    <i *ngIf="id === ''" class="pi pi-calendar-plus mr-2"></i>
+    <i *ngIf="id != ''" class="pi pi-user-edit mr-2"></i>
+    <h2 class="panel-header">{{ panelHeader }}</h2>
+  </ng-template>
+  <small [innerHTML]="this.messageService.requiredFields"></small>
+  <p-divider></p-divider>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="formgrid grid">
+      <!-- <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="student"
+          label="Estudiante:"
+          [required]="studentField"
+        ></label>
+        <input
+          [disabled]="true"
+          pInputText
+          type="text"
+          id="student"
+          formControlName="student"
+        />
+        <small
+          appErrorMessage
+          [errors]="studentField.errors"
+          [touched]="studentField.touched"
+          [dirty]="studentField.dirty"
+        >
+        </small>
+      </div> -->
+      <!-- Title -->
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="title"
+          label="Titulo:"
+          [required]="titleField"
+        ></label>
+        <input
+          [disabled]="!editForm.value"
+          pInputText
+          type="text"
+          id="title"
+          formControlName="title"
+        />
+        <small
+          appErrorMessage
+          [errors]="titleField.errors"
+          [touched]="titleField.touched"
+          [dirty]="titleField.dirty"
+        >
+        </small>
+      </div>
+    </div>
+
+    <div class="formgrid grid">
+      <!-- Request File  -->
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="requestFile"
+          label="Solicitud de Ante-Proyecto"
+          [required]="requestFileField"
+        ></label>
+        <p-fileUpload
+          [disabled]="!editForm.value"
+          [maxFileSize]="5000000"
+          name="file"
+          [url]="
+            'http://localhost:3000/api/v1/ProjectPlans/uploadRequest/' +
+            idRequest.getRawValue()
+          "
+          (onSelect)="onchangeRequestFile($event)"
+          (onRemove)="onRemoveRequestFile($event)"
+          (onClear)="onRemoveRequestFile($event)"
+          [files]="this.nameRequestFile.value"
+          #requestId
+          (onUpload)="onUploadComplete($event)"
+        >
+        </p-fileUpload>
+        <small
+          appErrorMessage
+          [errors]="requestFileField.errors"
+          [touched]="requestFileField.touched"
+          [dirty]="requestFileField.dirty"
+        >
+        </small>
+      </div>
+
+      <!-- Proyect Plan File -->
+      <div *ngIf="visibleObs, noLoadAnteproject" class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="proyectPlanFile"
+          label="Ante Proyecto"
+          [required]="proyectPlanFileField"
+        ></label>
+        <p-fileUpload
+          [disabled]="!editForm.value"
+          [maxFileSize]="5000000"
+          name="file"
+          [url]="
+            'http://localhost:3000/api/v1/ProjectPlans/uploadAnteProyecto/' +
+            idRequest.getRawValue()
+          "
+          (onSelect)="onchangeProyectPlanFile($event)"
+          (onRemove)="onRemoveProyectPlanFile($event)"
+          [files]="this.nameProyectPlanFile.value"
+          #projectPlanId
+          (onClear)="onRemoveProyectPlanFile($event)"
+          (onUpload)="onUploadComplete($event)"
+        >
+        </p-fileUpload>
+        <small
+          appErrorMessage
+          [errors]="proyectPlanFileField.errors"
+          [touched]="proyectPlanFileField.touched"
+          [dirty]="proyectPlanFileField.dirty"
+        >
+        </small>
+      </div>
+    </div>
+
+    <!-- observation -->
+    <div class="field xl:col-5 lg:col-5 md:col-6 sm:col-12" *ngIf="visibleObs">
+      <label appLabel for="observation" label="Observación:"></label>
+      <textarea
+        [disabled]="true"
+        pInputTextarea
+        [rows]="5"
+        [cols]="50"
+        [value]="observationForm.value"
+        id="observation"
+        style="opacity: 1 !important"
+      ></textarea>
+      <!-- <small appErrorMessage
+               [errors]="observationField.errors"
+               [touched]="observationField.touched"
+               [dirty]="observationField.dirty">
+        </small> -->
+    </div>
+
+    <!-- botones -->
+
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button
+          pButton
+          pRipple
+          id="btnBack"
+          type="button"
+          label="Cancelar"
+          class="p-button-info p-button-outlined"
+          icon="pi pi-arrow-left"
+          [loading]="(loaded$ | async)!"
+          (click)="back()"
+        ></button>
+      </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button
+          [disabled]="!editForm.value"
+          pButton
+          pRipple
+          id="submit"
+          type="submit"
+          label="Enviar"
+          icon="pi pi-save"
+          [loading]="(loaded$ | async)!"
+        ></button>
+      </div>
+    </div>
+  </form>
+</p-panel>

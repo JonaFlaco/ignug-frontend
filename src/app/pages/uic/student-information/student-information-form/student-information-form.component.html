@@ -1,0 +1,196 @@
+<app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
+<p-panel *ngIf="!isLoadingSkeleton" class="p-fluid" collapseIcon="pi pi-times" [toggleable]="true" (collapsedChange)="back()">
+    <p-toolbar>
+        <p-message severity="success" text="Convocatoria:  {{planning}}"></p-message>
+    </p-toolbar>
+    <ng-template pTemplate="header">
+        <i *ngIf="id === ''" class="pi pi-user-plus mr-2"></i>
+        <i *ngIf="id != ''" class="pi pi-user-edit mr-2"></i>
+        <h2 class="panel-header">{{ panelHeader }}</h2>
+    </ng-template>
+    <small [innerHTML]="this.messageService.requiredFields"></small>
+    <p-divider></p-divider>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <!-- <div class="field">
+      <label appLabel for="student" label="Estudiante:" [required]="studentField"></label>
+      <p-dropdown id="student"
+      formControlName="student"
+      dataKey="id"
+      [options]="students"
+      optionLabel="observation"
+      [filter]="true"
+      filterBy="observation"
+      placeholder="Select">
+    <ng-template pTemplate="selectedItem">
+    <div *ngIf="studentField.value">
+    <div>{{studentField.value.observation}}</div>
+    </div>
+    </ng-template>
+    <ng-template pTemplate="item" let-item>
+    {{item.observation}}
+    </ng-template>
+    </p-dropdown>
+      <small appErrorMessage
+             [errors]="studentField.errors"
+             [touched]="studentField.touched"
+             [dirty]="studentField.dirty">
+      </small>
+    </div> -->
+
+        <div class="formgrid grid">
+            <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+                <label appLabel for="cedula" label="Cedula:" [required]="cedulaField"></label>
+                <input pInputText type="number" id="cedula" formControlName="cedula" />
+                <small appErrorMessage [errors]="cedulaField.errors" [touched]="cedulaField.touched" [dirty]="cedulaField.dirty">
+        </small>
+            </div>
+
+            <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+                <label appLabel for="name" label="Nombres y Apellidos:" [required]="nameField"></label>
+                <input pInputText type="text" id="name" formControlName="name" />
+                <small appErrorMessage [errors]="nameField.errors" [touched]="nameField.touched" [dirty]="nameField.dirty">
+        </small>
+            </div>
+        </div>
+
+        <div class="formgrid grid">
+            <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+                <label appLabel for="phone" label="Telefono:" [required]="phoneField"></label>
+                <input pInputText type="number" id="phone" formControlName="phone" />
+                <small appErrorMessage [errors]="phoneField.errors" [touched]="phoneField.touched" [dirty]="phoneField.dirty">
+        </small>
+            </div>
+
+            <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+                <label appLabel for="genre" label="Genero:" [required]="genreField"></label>
+                <input pInputText type="text" id="genre" formControlName="genre" />
+                <small appErrorMessage [errors]="genreField.errors" [touched]="genreField.touched" [dirty]="genreField.dirty">
+        </small>
+            </div>
+        </div>
+
+        <div class="formgrid grid">
+            <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+                <label appLabel for="personalEmail" label="Correo Personal:" [required]="personalEmailField"></label>
+                <input pInputText type="text" id="personalEmail" formControlName="personalEmail" />
+                <small appErrorMessage [errors]="personalEmailField.errors" [touched]="personalEmailField.touched" [dirty]="personalEmailField.dirty">
+        </small>
+            </div>
+
+            <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+                <label appLabel for="email" label="Correo institucional:" [required]="emailField"></label>
+                <input pInputText type="text" id="email" formControlName="email" />
+                <small appErrorMessage [errors]="emailField.errors" [touched]="emailField.touched" [dirty]="emailField.dirty">
+        </small>
+            </div>
+        </div>
+
+        <div class="formgrid grid">
+            <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+                <label appLabel for="birthDate" label="Fecha de nacimiento:" [required]="birthDateField"></label>
+                <p-calendar formControlName="birthDate" id="birthDate" dateFormat="dd/mm/yy"></p-calendar>
+                <small appErrorMessage [errors]="birthDateField.errors" [touched]="birthDateField.touched" [dirty]="birthDateField.dirty">
+        </small>
+            </div>
+
+            <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+                <label appLabel for="provinceBirth" label="Provincia de nacimiento:" [required]="provinceBirthField"></label>
+                <input pInputText type="text" id="provinceBirth" formControlName="provinceBirth" />
+                <small appErrorMessage [errors]="provinceBirthField.errors" [touched]="provinceBirthField.touched" [dirty]="provinceBirthField.dirty">
+        </small>
+            </div>
+        </div>
+
+        <div class="formgrid grid">
+            <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+                <label appLabel for="cantonBirth" label="Canton de nacimiento:" [required]="cantonBirthField"></label>
+                <input pInputText type="text" id="cantonBirth" formControlName="cantonBirth" />
+                <small appErrorMessage [errors]="cantonBirthField.errors" [touched]="cantonBirthField.touched" [dirty]="cantonBirthField.dirty">
+        </small>
+            </div>
+
+            <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+                <label appLabel for="currentLocation" label="Dirección actual:" [required]="currentLocationField"></label>
+                <input pInputText type="text" id="currentLocation" formControlName="currentLocation" />
+                <small appErrorMessage [errors]="currentLocationField.errors" [touched]="currentLocationField.touched" [dirty]="currentLocationField.dirty">
+        </small>
+            </div>
+        </div>
+
+        <div class="formgrid grid">
+            <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+                <label appLabel for="entryCohort" label="Cohorte de ingreso:" [required]="entryCohortField"></label>
+                <input pInputText type="text" id="entryCohort" formControlName="entryCohort" />
+                <small appErrorMessage [errors]="entryCohortField.errors" [touched]="entryCohortField.touched" [dirty]="entryCohortField.dirty">
+        </small>
+            </div>
+
+            <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+                <label appLabel for="exitCohort" label="Cohorte de salida:" [required]="exitCohortField"></label>
+                <p-calendar formControlName="exitCohort" id="exitCohort" dateFormat="dd/mm/yy"></p-calendar>
+                <small appErrorMessage [errors]="exitCohortField.errors" [touched]="exitCohortField.touched" [dirty]="exitCohortField.dirty">
+        </small>
+            </div>
+        </div>
+
+        <div class="formgrid grid">
+            <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+                <label appLabel for="companyWork" label="Empresa donde labora:" [required]="companyWorkField"></label>
+                <input pInputText type="text" id="companyWork" formControlName="companyWork" />
+                <small appErrorMessage [errors]="companyWorkField.errors" [touched]="companyWorkField.touched" [dirty]="companyWorkField.dirty">
+        </small>
+            </div>
+
+            <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+                <label appLabel for="companyArea" label="Area en la empresa:" [required]="companyAreaField"></label>
+                <input pInputText type="text" id="companyArea" formControlName="companyArea" />
+                <small appErrorMessage [errors]="companyAreaField.errors" [touched]="companyAreaField.touched" [dirty]="companyAreaField.dirty">
+        </small>
+            </div>
+        </div>
+
+        <div class="formgrid grid">
+            <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+                <label appLabel for="companyPosition" label="Cargo en la empresa:" [required]="companyPositionField"></label>
+                <input pInputText type="text" id="companyPosition" formControlName="companyPosition" />
+                <small appErrorMessage [errors]="companyPositionField.errors" [touched]="companyPositionField.touched" [dirty]="companyPositionField.dirty">
+        </small>
+            </div>
+
+            <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+                <label appLabel for="laborRelation" label="Relación laboral con la carrera:" [required]="laborRelationField"></label>
+                <input pInputText type="text" id="laborRelation" formControlName="laborRelation" />
+                <small appErrorMessage [errors]="laborRelationField.errors" [touched]="laborRelationField.touched" [dirty]="laborRelationField.dirty">
+        </small>
+            </div>
+        </div>
+
+        <!-- <div class="field">
+      <label
+        appLabel
+        for="status"
+        label="Estado:"
+        [required]="statusField"
+      ></label>
+      <p>
+        <p-inputSwitch formControlName="status"></p-inputSwitch>
+      </p>
+      <small
+        appErrorMessage
+        [errors]="statusField.errors"
+        [touched]="statusField.touched"
+        [dirty]="statusField.dirty"
+      >
+      </small>
+    </div> -->
+
+        <div class="formgrid grid">
+            <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+                <button pButton pRipple id="btnBack" type="button" label="Cancel" class="p-button-info p-button-outlined" icon="pi pi-arrow-left" [loading]="(loaded$ | async)!" (click)="back()"></button>
+            </div>
+            <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+                <button pButton pRipple id="submit" type="submit" label="Inscribirme" icon="pi pi-pencil" [loading]="(loaded$ | async)!"></button>
+            </div>
+        </div>
+    </form>
+</p-panel>

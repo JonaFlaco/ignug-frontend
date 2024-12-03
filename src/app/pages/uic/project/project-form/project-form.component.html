@@ -1,0 +1,110 @@
+<app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
+<p-panel *ngIf="!isLoadingSkeleton" class="p-fluid" collapseIcon="pi pi-times" [toggleable]="true"
+  (collapsedChange)="back()">
+  <ng-template pTemplate="header">
+    <i *ngIf="id===''" class="pi pi-user-plus mr-2"></i>
+    <i *ngIf="id!=''" class="pi pi-user-edit mr-2"></i>
+    <h2 class="panel-header">{{panelHeader}}</h2>
+  </ng-template>
+  <small [innerHTML]="this.messageService.requiredFields"></small>
+  <p-divider></p-divider>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <div class="field">
+      <label appLabel for="enrollment" label="Inscripciones:" [required]="enrollmentField"></label>
+      <p-dropdown id="enrollment" formControlName="enrollment" dataKey="id" [options]="enrollments" optionLabel="code"
+        [filter]="true" filterBy="code" placeholder="Select enrollments">
+        <ng-template pTemplate="selectedItem">
+          <div *ngIf="enrollmentField.value">
+            <div>{{enrollmentField.value.code}}</div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="item" let-item>
+          {{item.code}}
+        </ng-template>
+      </p-dropdown>
+      <small appErrorMessage [errors]="enrollmentField.errors" [touched]="enrollmentField.touched"
+        [dirty]="enrollmentField.dirty">
+      </small>
+    </div>
+
+    <div class="field">
+      <label appLabel for="projectPlan" label="Anteproyecto:" [required]="projectPlanField"></label>
+      <p-dropdown id="projectPlan" formControlName="projectPlan" dataKey="id" [options]="projectPlans"
+        optionLabel="title" [filter]="true" filterBy="title" placeholder="Select projectPlan">
+        <ng-template pTemplate="selectedItem">
+          <div *ngIf="projectPlanField.value">
+            <div>{{projectPlanField.value.title}}</div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="item" let-item>
+          {{item.title}}
+        </ng-template>
+      </p-dropdown>
+      <small appErrorMessage [errors]="projectPlanField.errors" [touched]="projectPlanField.touched"
+        [dirty]="projectPlanField.dirty">
+      </small>
+    </div>
+
+    <div class="formgrid grid">
+
+      <!--  title -->
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="title" label="Titulo :" [required]="titleField"></label>
+        <input pInputText type="text" id="title" formControlName="title" />
+        <small appErrorMessage [errors]="titleField.errors" [touched]="titleField.touched" [dirty]="titleField.dirty">
+        </small>
+      </div>
+      <!-- description -->
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="description" label="Descripción:" [required]="descriptionField"></label>
+        <input pInputText type="text" id="description" formControlName="description" />
+        <small appErrorMessage [errors]="descriptionField.errors" [touched]="descriptionField.touched"
+          [dirty]="descriptionField.dirty">
+        </small>
+      </div>
+    </div>
+    <div class="formgrid grid">
+      <!-- score-->
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="score" label="Calificación:" [required]="scoreField"></label>
+        <input pInputText type="number" id="score" formControlName="score" />
+        <small appErrorMessage [errors]="scoreField.errors" [touched]="scoreField.touched" [dirty]="scoreField.dirty">
+        </small>
+      </div>
+      <!-- observation -->
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="observation" label="Observación:" [required]="observationField"></label>
+        <input pInputText type="text" id="observation" formControlName="observation" />
+        <small appErrorMessage [errors]="observationField.errors" [touched]="observationField.touched"
+          [dirty]="observationField.dirty">
+        </small>
+      </div>
+
+
+    </div>
+
+    <!--  approved -->
+    <div class="field">
+      <label appLabel for="approved" label="Aprobado:" [required]="approvedField"></label>
+      <p><p-inputSwitch formControlName="approved"></p-inputSwitch></p>
+      <small appErrorMessage [errors]="approvedField.errors" [touched]="approvedField.touched"
+        [dirty]="approvedField.dirty">
+      </small>
+    </div>
+
+
+    <!-- Botones guardar -->
+
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button pButton pRipple id="btnBack" type="button" label="Cancelar" class="p-button-info p-button-outlined"
+          icon="pi pi-arrow-left" [loading]="(loaded$|async)!" (click)="back()"></button>
+      </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button pButton pRipple id="submit" type="submit" label="Guardar" icon="pi pi-save"
+          [loading]="(loaded$|async)!"></button>
+      </div>
+    </div>
+  </form>
+</p-panel>

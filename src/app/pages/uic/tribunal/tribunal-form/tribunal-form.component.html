@@ -1,0 +1,208 @@
+<app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
+<p-panel *ngIf="!isLoadingSkeleton"
+         class="p-fluid"
+         collapseIcon="pi pi-times"
+         [toggleable]="true"
+         (collapsedChange)="back()">
+  <ng-template pTemplate="header">
+    <i *ngIf="id===''" class="pi pi-user-plus mr-2"></i>
+    <i *ngIf="id!=''" class="pi pi-user-edit mr-2"></i>
+    <h2 class="panel-header">{{panelHeader}}</h2>
+  </ng-template>
+  <small [innerHTML]="this.messageService.requiredFields"></small>
+  <p-divider></p-divider>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+    <!-- Estudiante -->
+    <div class="formgrid grid">
+    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+    <label appLabel for="name" label="Nombre del estudiante 1:" [required]="nameField"></label>
+    <p-dropdown id="name"
+    formControlName="name"
+    dataKey="id"
+    [options]="name"
+    optionLabel="name"
+    [filter]="true"
+    filterBy="name"
+    placeholder="Seleccionar Estudiante">
+      <ng-template pTemplate="selectedItem">
+      <div *ngIf="nameField.value">
+      <div>{{nameField.value.name}}</div>
+      </div>
+      </ng-template>
+      <ng-template pTemplate="item" let-item>
+      {{item.name}}
+      </ng-template>
+      </p-dropdown>
+            <small appErrorMessage
+                  [errors]="nameField.errors"
+                  [touched]="nameField.touched"
+                  [dirty]="nameField.dirty">
+            </small>
+  </div>
+
+   <!-- Fecha-->
+   <div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+    <label appLabel for="date" label="Fecha:" [required]="dateField"></label>
+    <input pInputText type="date" id="date" formControlName="date"/>
+    <small appErrorMessage
+           [errors]="dateField.errors"
+           [touched]="dateField.touched"
+           [dirty]="dateField.dirty">
+    </small>
+  </div>
+</div>
+<!--  ---------------------------------------------------------------------------------------------------- -->
+
+<div class="formgrid grid">
+  <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+  <label appLabel for="president" label="Presidente:" [required]="presidentField"></label>
+  <p-dropdown id="president"
+  formControlName="president"
+  dataKey="id"
+  [options]="president"
+  optionLabel="tutor"
+  [filter]="true"
+  filterBy="tutor"
+  placeholder="Seleccionar presidente">
+<ng-template pTemplate="selectedItem">
+<div *ngIf="presidentField.value">
+<div>{{presidentField.value.tutor}}</div>
+</div>
+</ng-template>
+<ng-template pTemplate="item" let-item>
+{{item.tutor}}
+</ng-template>
+</p-dropdown>
+  <small appErrorMessage
+         [errors]="presidentField.errors"
+         [touched]="presidentField.touched"
+         [dirty]="presidentField.dirty">
+  </small>
+</div>
+<!-- NOTA -->
+<div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+  <label appLabel for="score" label="Nota del Presidente :" [required]="scoreField"></label>
+  <input pInputText type="number" id="score" formControlName="score"/>
+  <small appErrorMessage
+         [errors]="scoreField.errors"
+         [touched]="scoreField.touched"
+         [dirty]="scoreField.dirty">
+  </small>
+</div>
+</div>
+<!--  ---------------------------------------------------------------------------------------------------- -->
+
+  <div class="formgrid grid">
+  <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <label appLabel for="vocal" label="Vocal 1:" [required]="vocalField"></label>
+      <p-dropdown id="vocal"
+      formControlName="vocal"
+      dataKey="id"
+      [options]="vocal"
+      optionLabel="tutor"
+      [filter]="true"
+      filterBy="tutor"
+      placeholder="Seleccionar vocal 1">
+<ng-template pTemplate="selectedItem">
+<div *ngIf="vocalField.value">
+<div>{{vocalField.value.tutor}}</div>
+</div>
+</ng-template>
+<ng-template pTemplate="item" let-item>
+{{item.tutor}}
+</ng-template>
+</p-dropdown>
+      <small appErrorMessage
+             [errors]="vocalField.errors"
+             [touched]="vocalField.touched"
+             [dirty]="vocalField.dirty">
+      </small>
+    </div>
+<!-- NOTA 2-->
+<div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+  <label appLabel for="score2" label="Nota del Vocal 1 :" [required]="score2Field"></label>
+  <input pInputText type="number" id="score2" formControlName="score2"/>
+  <small appErrorMessage
+         [errors]="score2Field.errors"
+         [touched]="score2Field.touched"
+         [dirty]="score2Field.dirty">
+  </small>
+</div>
+  </div>
+
+<!-- vocal 2 -->
+<div class="formgrid grid">
+  <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+  <label appLabel for="tutor" label="Vocal 2:" [required]="tutorField"></label>
+  <p-dropdown id="tutor"
+  formControlName="tutor"
+  dataKey="id"
+  [options]="tutor"
+  optionLabel="tutor"
+  [filter]="true"
+  filterBy="tutor"
+  placeholder="Selecionar Vocal 2">
+  <ng-template pTemplate="selectedItem">
+  <div *ngIf="tutorField.value">
+  <div>{{tutorField.value.tutor}}</div>
+  </div>
+  </ng-template>
+  <ng-template pTemplate="item" let-item>
+  {{item.tutor}}
+  </ng-template>
+  </p-dropdown>
+  <small appErrorMessage
+         [errors]="tutorField.errors"
+         [touched]="tutorField.touched"
+         [dirty]="tutorField.dirty">
+  </small>
+</div>
+
+<div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+  <label appLabel for="score3" label="Nota del vocal 2:" [required]="score3Field"></label>
+  <input pInputText type="number" id="score3" formControlName="score3"/>
+  <small appErrorMessage
+         [errors]="score3Field.errors"
+         [touched]="score3Field.touched"
+         [dirty]="score3Field.dirty">
+  </small>
+</div>
+</div>
+
+    <!-- Lugar de defensa -->
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="place" label="Lugar de defensa:" [required]="placeField"></label>
+        <input pInputText type="string" id="place" formControlName="place"/>
+        <small appErrorMessage
+               [errors]="placeField.errors"
+               [touched]="placeField.touched"
+               [dirty]="placeField.dirty">
+        </small>
+      </div>
+    </div>
+    <!-- Boton de cancelar -->
+
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button pButton pRipple id="btnBack" type="button"
+                label="Cancelar"
+                class="p-button-info p-button-outlined"
+                icon="pi pi-arrow-left"
+                [loading]="(loaded$|async)!"
+                (click)="back()"></button>
+      </div>
+      <!-- Boton de Guardar-->
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button pButton pRipple id="submit" type="submit"
+                label="Guardar"
+                icon="pi pi-save"
+                [loading]="(loaded$|async)!"></button>
+      </div>
+
+
+    </div>
+
+  </form>
+</p-panel>

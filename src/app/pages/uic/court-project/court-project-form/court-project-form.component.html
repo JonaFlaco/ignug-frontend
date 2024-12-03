@@ -1,0 +1,94 @@
+<app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
+<p-panel *ngIf="!isLoadingSkeleton"
+         class="p-fluid"
+         collapseIcon="pi pi-times"
+         [toggleable]="true"
+         (collapsedChange)="back()">
+  <ng-template pTemplate="header">
+    <i *ngIf="id===''" class="pi pi-user-plus mr-2"></i>
+    <i *ngIf="id!=''" class="pi pi-user-edit mr-2"></i>
+    <h2 class="panel-header">{{panelHeader}}</h2>
+  </ng-template>
+  <small [innerHTML]="this.messageService.requiredFields"></small>
+  <p-divider></p-divider>
+  <!-- <h2>Aqui se asignara un proyecto a un tribunal</h2> -->
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="tribunal" label="Nombre del Tribunal:" [required]="tribunalField"></label>
+        <input pInputText type="string" id="tribunal" formControlName="tribunal"/>
+        <small appErrorMessage
+               [errors]="tribunalField.errors"
+               [touched]="tribunalField.touched"
+               [dirty]="tribunalField.dirty">
+        </small>
+      </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="proyect" label="Seleccionar Proyectos:" [required]="proyectField"></label>
+        <p-dropdown id="proyect" formControlName="proyect" dataKey="id" [options]="proyects"
+          optionLabel="theme" [filter]="true" filterBy="theme" placeholder="Seleccionar Modalidad">
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="proyectField.value">
+              <div>{{proyectField.value.theme}}</div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            {{item.theme}}
+          </ng-template>
+        </p-dropdown>
+        <small appErrorMessage [errors]="proyectField.errors" [touched]="proyectField.touched"
+          [dirty]="proyectField.dirty">
+        </small>
+      </div>
+    </div>
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="place" label="Lugar de la Defensa:" [required]="placeField"></label>
+        <input pInputText type="string" id="place" formControlName="place"/>
+        <small appErrorMessage
+               [errors]="placeField.errors"
+               [touched]="placeField.touched"
+               [dirty]="placeField.dirty">
+        </small>
+      </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="date" label="Fecha de la defensa:" [required]="defenseAtField"></label>
+        <p-calendar [showIcon]="true"  formControlName="defenseAt" id="defenseAt" dateFormat="dd/mm/yy"></p-calendar>
+        <small appErrorMessage
+               [errors]="defenseAtField.errors"
+               [touched]="defenseAtField.touched"
+               [dirty]="defenseAtField.dirty">
+        </small>
+      </div>
+    </div>
+    <div class="field">
+      <label appLabel for="description" label="Descripción:" [required]="descriptionField"></label>
+      <input pInputText type="string" id="description" formControlName="description"/>
+      <small appErrorMessage
+             [errors]="descriptionField.errors"
+             [touched]="descriptionField.touched"
+             [dirty]="descriptionField.dirty">
+      </small>
+    </div>
+
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button pButton pRipple id="btnBack" type="button"
+                label="Cancelar"
+                class="p-button-info p-button-outlined"
+                icon="pi pi-arrow-left"
+                [loading]="(loaded$|async)!"
+                (click)="back()"></button>
+      </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button pButton pRipple id="submit" type="submit"
+                label="Asignar"
+                icon="pi pi-save"
+                [loading]="(loaded$|async)!"></button>
+      </div>
+
+
+    </div>
+
+  </form>
+</p-panel>

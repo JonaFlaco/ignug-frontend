@@ -1,0 +1,35 @@
+<!-- CABEZERA -->
+<p-panel>
+  <ng-template pTemplate="header">
+    <h2 class="panel-header">{{panelHeader}}</h2>
+  </ng-template>
+
+  <p-divider></p-divider>
+
+<!-- Nombre Convocatoria -->
+<p-message severity="info" text="Convocatoria:  {{planning?.name}}"></p-message>
+
+<!-- Componente -->
+<p-timeline [value]="events" align="alternate">
+  <ng-template pTemplate="marker" let-event>
+      <span class="custom-marker shadow-2" [style.backgroundColor]="event.color">
+          <i [ngClass]="event.icon"></i>
+      </span>
+  </ng-template>
+  <ng-template pTemplate="content" let-event>
+      <p-card [header]="event.status" [subheader]="event.subheader">
+          <p>{{event.content}}</p>
+      </p-card>
+  </ng-template>
+</p-timeline>
+
+<p-divider></p-divider>
+
+<!-- BOTTON DE REGRESO -->
+<button pButton pRipple id="btnBack" type="button"
+label="REGRESAR"
+class="p-button-info p-button-outlined"
+icon="pi pi-arrow-left"
+[loading]="(loaded$|async)!"
+(click)="back()"
+></button>

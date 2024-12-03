@@ -1,0 +1,173 @@
+<!--<p-card>-->
+<p-toolbar>
+  <div class="p-toolbar-group-left">
+    <button
+      pButton
+      type="button"
+      label="Refrescar"
+      class="p-button-info mr-2"
+      icon="pi pi-refresh"
+      (click)="findAll()"
+    ></button>
+    <form>
+      <button
+        pButton
+        pRipple
+        id="submit"
+        type="button"
+        label="Guardar Rúbrica"
+        class="p-button-secondary mr-2"
+        icon="pi pi-save"
+        (click)="createRubric()"
+      ></button>
+    </form>
+  </div>
+  <div class="p-toolbar-group-right">
+    <div class="p-input-icon-right">
+      <input
+        type="text"
+        pInputText
+        [formControl]="search"
+        placeholder="Search"
+      />
+      <i
+        class="pi pi-search"
+        [ngClass]="{ 'pi-spin pi-spinner': (loaded$ | async) }"
+      ></i>
+    </div>
+    <h2><i class="pi pi-user"></i> {{ authService.auth.name }}</h2>
+  </div>
+</p-toolbar>
+Estudiante
+<div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12">
+  <label appLabel for="enrollment"></label>
+  <p-dropdown
+    id="enrollment"
+    formControlName="enrollment"
+    dataKey="id"
+    [options]="students"
+    optionLabel="student"
+    [filter]="true"
+    filterBy="code"
+    (onChange)="selectStudent($event)"
+    placeholder="Seleccionar Estudiante"
+  >
+    <ng-template pTemplate="selectedItem">
+      <div *ngIf="enrollmentField.value">
+        <div>{{ enrollmentField.value.student.name }}</div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="item" let-item>
+      {{ item.student.name }}
+    </ng-template>
+  </p-dropdown>
+  <small
+    appErrorMessage
+    [errors]="enrollmentField.errors"
+    [touched]="enrollmentField.touched"
+    [dirty]="enrollmentField.dirty"
+  >
+  </small>
+</div>
+
+<p-paginator
+  [rows]="paginator.limit"
+  [totalRecords]="paginator.totalItems"
+  (onPageChange)="paginate($event)"
+></p-paginator>
+
+<p-table
+  dataKey="id"
+  styleClass="p-datatable-gridlines"
+  [value]="rubrics"
+  [columns]="columns"
+  [loading]="(loaded$ | async)!"
+  [(selection)]="selectedRubrics"
+  [responsive]="true"
+>
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th style="width: 3rem">
+        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+      </th>
+      <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+        {{ col.header }}
+
+        <p-sortIcon [field]="col.field"></p-sortIcon>
+      </th>
+      <th class="text-center">Nota</th>
+      <th class="text-center"></th>
+    </tr>
+  </ng-template>
+  <ng-template
+    pTemplate="body"
+    let-rowData
+    let-columns="columns"
+    let-rowIndex="rowIndex"
+  >
+    <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
+      <td>
+        <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+      </td>
+
+      <td *ngFor="let col of columns">
+        <!--Objects-->
+        <div *ngIf="rowData[col.field]?.id" [ngSwitch]="col.field"></div>
+        <!--Fields-->
+        <div *ngIf="!rowData[col.field]?.id" [ngSwitch]="col.field">
+          <div *ngSwitchCase="'item'">
+            <p-tag
+              *ngFor="let item of rowData[col.field]"
+              severity="info"
+              [value]="item.name"
+              class="mr-1"
+            ></p-tag>
+          </div>
+          <div *ngSwitchDefault>{{ rowData[col.field] }}</div>
+        </div>
+      </td>
+      <td class="text-center">
+        <div
+          *ngIf="
+            rowData['id'] !== authService.auth.id;
+            then thenBlock;
+            else elseBlock
+          "
+        ></div>
+        <ng-template #thenBlock>
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div>
+              <p-inputNumber
+                type="number"
+                id="note"
+                [disabled]="showNote()"
+                formControlName="note"
+                (keyup)="addRubricNote(rowData, $event)"
+              ></p-inputNumber>
+
+              <small
+                appErrorMessage
+                [errors]="noteField.errors"
+                [touched]="noteField.touched"
+                [dirty]="noteField.dirty"
+              >
+              </small>
+            </div>
+          </form>
+        </ng-template>
+        <ng-template #elseBlock>Current User</ng-template>
+      </td>
+
+      <td class="text-center"></td>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="emptymessage" let-columns>
+    <tr>
+      <td [attr.colspan]="columns.length">
+        {{ messageService.paginatorNoRecordsFound }}
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
+
+<!--</p-card>-->

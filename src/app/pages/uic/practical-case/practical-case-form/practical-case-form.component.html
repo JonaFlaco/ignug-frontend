@@ -1,0 +1,123 @@
+<app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
+<p-panel *ngIf="!isLoadingSkeleton"
+         class="p-fluid"
+         collapseIcon="pi pi-times"
+         [toggleable]="true"
+         (collapsedChange)="back()">
+  <ng-template pTemplate="header">
+    <i *ngIf="id===''" class="pi pi-user-plus mr-2"></i>
+    <i *ngIf="id!=''" class="pi pi-user-edit mr-2"></i>
+    <h2 class="panel-header">{{panelHeader}}</h2>
+  </ng-template>
+  <small [innerHTML]="this.messageService.requiredFields"></small>
+  <p-divider></p-divider>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="formgrid grid">
+
+<!-- CAMPOS PROPIOS -->
+<!-- CAMPO NOMBRE -->
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="proyect" label="Nombre:" ></label>
+        <input pInputText type="proyect" id="proyect" formControlName="proyect"/>
+        <small appErrorMessage
+               [errors]="proyectField.errors"
+               [touched]="proyectField.touched"
+               [dirty]="proyectField.dirty">
+        </small>
+      </div>
+
+<!-- CAMPO FECHA INICIO -->
+      <div *ngIf="rol"  class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="startDate" label="Fecha de inicio:" [required]="startDateField"></label>
+        <p-calendar formControlName="startDate" id="startDate" dateFormat="dd/mm/yy"></p-calendar>
+        <small appErrorMessage
+               [errors]="startDateField.errors"
+               [touched]="startDateField.touched"
+               [dirty]="startDateField.dirty">
+        </small>
+      </div>
+
+<!-- CAMPO FECHA FIN --> 
+      <div *ngIf="rol"  class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="endDate" label="Fecha de fin:" [required]="endDateField"></label>
+        <p-calendar formControlName="endDate" id="endDate" dateFormat="dd/mm/yy"></p-calendar>
+        <small appErrorMessage
+               [errors]="endDateField.errors"
+               [touched]="endDateField.touched"
+               [dirty]="endDateField.dirty">
+        </small>
+       </div>
+
+<!-- FK -->
+<div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+  <label appLabel for="student" label="Estudiante:" [required]="studentField"></label>
+  <p-dropdown id="student"
+  formControlName="student"
+  dataKey="id"
+  [options]="students"
+  optionLabel="name"
+  [filter]="true"
+  filterBy="name"
+  placeholder="Seleccionar Estudiante">
+    <ng-template pTemplate="selectedItem">
+    <div *ngIf="studentField.value">
+    <div>{{studentField.value.name}}</div>
+    </div>
+    </ng-template>
+    <ng-template pTemplate="item" let-item>
+    {{item.name}}
+    </ng-template>
+    </p-dropdown>
+          <small appErrorMessage
+                [errors]="studentField.errors"
+                [touched]="studentField.touched"
+                [dirty]="studentField.dirty">
+          </small>
+</div>
+
+<div *ngIf="rol"  class="field xl:col-6 lg:col-6 md:col-6 sm:col-12" >
+<label appLabel for="teacher" label="Profesor:" [required]="teacherField"></label>
+<p-dropdown id="teacher"
+formControlName="teacher"
+dataKey="id"
+[options]="teachers"
+optionLabel="name"
+[filter]="true"
+filterBy="name"
+placeholder="Seleccionar Profesor">
+  <ng-template pTemplate="selectedItem">
+  <div *ngIf="teacherField.value">
+  <div>{{teacherField.value.name}}</div>
+  </div>
+  </ng-template>
+  <ng-template pTemplate="item" let-item>
+  {{item.name}}
+  </ng-template>
+  </p-dropdown>
+        <small appErrorMessage
+              [errors]="teacherField.errors"
+              [touched]="teacherField.touched"
+              [dirty]="teacherField.dirty">
+        </small>
+  </div>
+</div>
+
+<!-- BOTONES -->
+    <div class="formgrid grid">   
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button pButton pRipple id="btnBack" type="button"
+                label="Cancelar"
+                class="p-button-info p-button-outlined"
+                icon="pi pi-arrow-left"
+                [loading]="(loaded$|async)!"
+                (click)="back()"></button>
+      </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button pButton pRipple id="submit" type="submit"
+                label="Guardar"
+                icon="pi pi-save"
+                [loading]="(loaded$|async)!"></button>
+      </div>
+    </div>
+  </form>
+</p-panel>

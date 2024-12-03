@@ -1,0 +1,120 @@
+<app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
+<p-panel *ngIf="!isLoadingSkeleton"
+         class="p-fluid"
+         collapseIcon="pi pi-times"
+         [toggleable]="true"
+         (collapsedChange)="back()">
+  <ng-template pTemplate="header">
+    <i *ngIf="id===''" class="pi pi-planning-plus mr-2"></i>
+    <i *ngIf="id!=''" class="pi pi-planning-edit mr-2"></i>
+    <h2 class="panel-header">{{panelHeader}}</h2>
+  </ng-template>
+  <small [innerHTML]="this.messageService.requiredFields"></small>
+  <p-divider></p-divider>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label appLabel for="student" label="Estudiante:" [required]="studentField"></label>
+        <p-dropdown id="student"
+        formControlName="student"
+        dataKey="id"
+        [options]="students"
+        optionLabel="name"
+        [filter]="true"
+        filterBy="name"
+        placeholder="Seleccionar estudiante">
+  <ng-template pTemplate="selectedItem">
+  <div *ngIf="studentField.value">
+  <div>{{studentField.value.name}}</div>
+  </div>
+  </ng-template>
+  <ng-template pTemplate="item" let-item>
+  {{item.name}}
+  </ng-template>
+  </p-dropdown>
+        <small appErrorMessage
+               [errors]="studentField.errors"
+               [touched]="studentField.touched"
+               [dirty]="studentField.dirty">
+        </small>
+      </div>
+
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="uploadProject" label="Proyectos:" [required]="uploadProjectField"></label>
+          <p-dropdown id="uploadProject"
+          formControlName="uploadProject"
+          dataKey="id"
+          [options]="uploadProjects"
+          optionLabel="theme"
+          [filter]="true"
+          filterBy="theme"
+          placeholder="Seleccionar Tema">
+    <ng-template pTemplate="selectedItem">
+    <div *ngIf="uploadProjectField.value">
+    <div>{{uploadProjectField.value.theme}}</div>
+    </div>
+    </ng-template>
+    <ng-template pTemplate="item" let-item>
+    {{item.theme}}
+    </ng-template>
+    </p-dropdown>
+          <small appErrorMessage
+                 [errors]="uploadProjectField.errors"
+                 [touched]="uploadProjectField.touched"
+                 [dirty]="uploadProjectField.dirty">
+          </small>
+        </div>
+
+      </div>
+
+
+    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <label appLabel for="teacher" label="Tutor Asignado:" [required]="teacherField"></label>
+      <p-dropdown id="teacher"
+      formControlName="teacher"
+      dataKey="id"
+      [options]="teachers"
+      optionLabel="name"
+      [filter]="true"
+      filterBy="tutor"
+      placeholder="Seleccionar tutor">
+    <ng-template pTemplate="selectedItem">
+    <div *ngIf="teacherField.value">
+    <div>{{teacherField.value.name}}</div>
+    </div>
+    </ng-template>
+    <ng-template pTemplate="item" let-item>
+    {{item.name}}
+    </ng-template>
+    </p-dropdown>
+      <small appErrorMessage
+             [errors]="teacherField.errors"
+             [touched]="teacherField.touched"
+             [dirty]="teacherField.dirty">
+      </small>
+
+    </div>
+
+
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button pButton pRipple id="btnBack" type="button"
+                label="Cancelar"
+                class="p-button-info p-button-outlined"
+                icon="pi pi-arrow-left"
+                [loading]="(loaded$|async)!"
+                (click)="back()"></button>
+      </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button pButton pRipple id="submit" type="submit"
+                label="Guardar"
+                icon="pi pi-save"
+                [loading]="(loaded$|async)!"></button>
+      </div>
+    </div>
+  </form>
+</p-panel>
+
+

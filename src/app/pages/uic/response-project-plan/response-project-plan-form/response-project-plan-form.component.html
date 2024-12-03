@@ -1,0 +1,239 @@
+<app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
+<p-panel
+  *ngIf="!isLoadingSkeleton"
+  class="p-fluid"
+  collapseIcon="pi pi-times"
+  [toggleable]="true"
+  (collapsedChange)="back()"
+>
+  <ng-template pTemplate="header">
+    <i *ngIf="id === ''" class="pi pi-calendar-plus mr-2"></i>
+    <i *ngIf="id != ''" class="pi pi-user-edit mr-2"></i>
+    <h2 class="panel-header">{{ panelHeader }}</h2>
+  </ng-template>
+  <small [innerHTML]="this.messageService.requiredFields"></small>
+  <p-divider></p-divider>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="formgrid grid">
+      <!--  title -->
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="title"
+          label="Titulo:"
+          [required]="titleField"
+        ></label>
+        <input
+          [disabled]="!editForm.value"
+          pInputText
+          type="text"
+          id="title"
+          [value]="form.controls['title'].value"
+        />
+        <small
+          appErrorMessage
+          [errors]="titleField.errors"
+          [touched]="titleField.touched"
+          [dirty]="titleField.dirty"
+        >
+        </small>
+      </div>
+
+      <!-- Student -->
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          label="Estudiante:"
+        ></label>
+        <input
+          [disabled]="true"
+          pInputText
+          type="text"
+          [value]="form.controls['student'].value.name.trim() + ' ' + form.controls['student'].value.lastname.trim()"
+        />
+      </div>
+    </div>
+
+    <div class="formgrid grid">
+      <!-- observation -->
+    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <label
+        appLabel
+        for="observation"
+        label="Observación:"
+        [required]="observationField"
+      ></label>
+      <textarea
+        pInputTextarea
+        [rows]="10"
+        [cols]="88"
+        id="observation"
+        placeholder="Observacion Correspondiente"
+        formControlName="observation"
+      ></textarea>
+      <small
+        appErrorMessage
+        [errors]="observationField.errors"
+        [touched]="observationField.touched"
+        [dirty]="observationField.dirty"
+      >
+      </small>
+    </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="state"
+          label="Asignar Estado:"
+          [required]="stateField"
+        ></label>
+        <p-dropdown
+          id="state"
+          formControlName="state"
+          dataKey="id"
+          [options]="filteredOptions"
+          optionLabel="state"
+          [filter]="true"
+          filterBy="state"
+          placeholder="Estado"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="stateField.value">
+              <div>{{ stateField.value.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            {{ item.name }}
+          </ng-template>
+        </p-dropdown>
+        <small
+          appErrorMessage
+          [errors]="stateField.errors"
+          [touched]="stateField.touched"
+          [dirty]="stateField.dirty"
+        >
+        </small>
+      </div>
+    </div>
+
+    <div class="formgrid grid">
+      <!-- Request File -->
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="requestFile"
+          label="Solicitud de Ante-Proyecto"
+          [required]="requestFileField"
+        ></label>
+        <p-fileUpload
+          [disabled]="true"
+          [maxFileSize]="5000000"
+          name="file"
+          [showCancelButton]="false"
+          [url]="
+            'http://localhost:3000/api/v1/ProjectPlans/uploadRequest/' +
+            idRequest.getRawValue()
+          "
+          (onSelect)="onchangeRequestFile($event)"
+          (onRemove)="onRemoveRequestFile($event)"
+          (onClear)="onRemoveRequestFile($event)"
+          [files]="this.nameRequestFile.value"
+          #requestId
+          (onUpload)="onUploadComplete($event)"
+        >
+        </p-fileUpload>
+        <small
+          appErrorMessage
+          [errors]="requestFileField.errors"
+          [touched]="requestFileField.touched"
+          [dirty]="requestFileField.dirty"
+        >
+        </small>
+        <button
+          pButton
+          pRipple
+          id="btnBack"
+          type="button"
+          label="Descargar"
+          class="p-button-success"
+          icon="p-fluid"
+          [loading]="(loaded$ | async)!"
+          (click)="downloadFileRequest()"
+        ></button>
+      </div>
+
+      <!-- Proyect Plan File -->
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="proyectPlanFile"
+          label="Ante Proyecto"
+          [required]="proyectPlanFileField"
+        ></label>
+        <p-fileUpload
+          [disabled]="true"
+          [maxFileSize]="5000000"
+          name="file"
+          [showCancelButton]="false"
+          [url]="
+            'http://localhost:3000/api/v1/ProjectPlans/uploadAnteProyecto/' +
+            idRequest.getRawValue()
+          "
+          (onSelect)="onchangeProyectPlanFile($event)"
+          (onRemove)="onRemoveProyectPlanFile($event)"
+          [files]="this.nameProyectPlanFile.value"
+          #projectPlanId
+          (onClear)="onRemoveProyectPlanFile($event)"
+          (onUpload)="onUploadComplete($event)"
+        >
+        </p-fileUpload>
+        <small
+          appErrorMessage
+          [errors]="proyectPlanFileField.errors"
+          [touched]="proyectPlanFileField.touched"
+          [dirty]="proyectPlanFileField.dirty"
+        >
+        </small>
+        <button
+          pButton
+          pRipple
+          id="btnBack"
+          type="button"
+          label="Descargar"
+          class="p-button-success"
+          icon="p-fluid"
+          [loading]="(loaded$ | async)!"
+          (click)="downloadFileAnteProyect()"
+        ></button>
+      </div>
+    </div>
+
+    <!-- botones -->
+
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button
+          pButton
+          pRipple
+          id="btnBack"
+          type="button"
+          label="Cancelar"
+          class="p-button-info p-button-outlined"
+          icon="pi pi-arrow-left"
+          [loading]="(loaded$ | async)!"
+          (click)="back()"
+        ></button>
+      </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button
+          pButton
+          pRipple
+          id="submit"
+          type="submit"
+          label="Responder"
+          icon="pi pi-save"
+          [loading]="(loaded$ | async)!"
+        ></button>
+      </div>
+    </div>
+  </form>
+</p-panel>

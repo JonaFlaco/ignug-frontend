@@ -1,0 +1,91 @@
+<app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="p-fluid">
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="student" label="Seleccionar Estudiante:" [required]="studentField"></label>
+        <p-dropdown id="student" formControlName="student" dataKey="id" [options]="students" optionLabel="name"
+          [filter]="true" filterBy="name" placeholder="Seleccionar Modalidad">
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="studentField.value">
+              <div>{{studentField.value.name}}</div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            {{item.name}}
+          </ng-template>
+        </p-dropdown>
+        <small appErrorMessage [errors]="studentField.errors" [touched]="studentField.touched"
+          [dirty]="studentField.dirty">
+        </small>
+      </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label appLabel for="note" label="Calificación:" [required]="noteField"></label>
+        <input pInputText type="string" id="note" formControlName="note" />
+        <small appErrorMessage [errors]="noteField.errors" [touched]="noteField.touched" [dirty]="noteField.dirty">
+        </small>
+      </div>
+    </div>
+    <!-- <div>
+      <p>
+        ¿Demuestra interés en el curso?
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <div class="flex align-items-center">
+          <p-radioButton name="pizza" value="Cheese" inputId="ingredient1"></p-radioButton>
+          <label for="ingredient1" class="ml-2">No</label>
+        </div>
+        <div class="flex align-items-center">
+          <p-radioButton name="pizza" value="Mushroom" inputId="ingredient2"></p-radioButton>
+          <label for="ingredient2" class="ml-2">Intermedio</label>
+        </div>
+        <div class="flex align-items-center">
+          <p-radioButton name="pizza" value="Pepper" inputId="ingredient3"></p-radioButton>
+          <label for="ingredient3" class="ml-2">Sí</label>
+        </div>
+      </div>
+      <p-divider></p-divider>
+      <p>
+        ¿Realiza las actividades del curso?
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <div class="flex align-items-center">
+          <p-radioButton name="pizza" value="Cheese" inputId="ingredient1"></p-radioButton>
+          <label for="ingredient1" class="ml-2">No</label>
+        </div>
+        <div class="flex align-items-center">
+          <p-radioButton name="pizza" value="Mushroom" inputId="ingredient2"></p-radioButton>
+          <label for="ingredient2" class="ml-2">Intermedio</label>
+        </div>
+        <div class="flex align-items-center">
+          <p-radioButton name="pizza" value="Pepper" inputId="ingredient3"></p-radioButton>
+          <label for="ingredient3" class="ml-2">Sí</label>
+        </div>
+      </div>
+      <p-divider></p-divider>
+      <p>
+        ¿Domina los conocimientos adquiridos?
+      </p>
+      <div class="flex flex-wrap gap-3">
+        <div class="flex align-items-center">
+          <p-radioButton name="pizza" value="Cheese" inputId="ingredient1"></p-radioButton>
+          <label for="ingredient1" class="ml-2">No</label>
+        </div>
+        <div class="flex align-items-center">
+          <p-radioButton name="pizza" value="Mushroom" inputId="ingredient2"></p-radioButton>
+          <label for="ingredient2" class="ml-2">Intermedio</label>
+        </div>
+        <div class="flex align-items-center">
+          <p-radioButton name="pizza" value="Pepper" inputId="ingredient3"></p-radioButton>
+          <label for="ingredient3" class="ml-2">Sí</label>
+        </div>
+      </div>
+      <p-divider></p-divider> -->
+    <div class="field">
+      <button pButton pRipple id="submit" type="submit"
+              label="Update User Information"
+              icon="pi pi-save"
+              [loading]="(loaded$|async)!"></button>
+    </div>
+  <!-- </div> -->
+  </form>
+<!-- </p-panel> -->

@@ -1,0 +1,116 @@
+<app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
+<p-panel *ngIf="!isLoadingSkeleton"
+         class="p-fluid"
+         collapseIcon="pi pi-times"
+         [toggleable]="true"
+         (collapsedChange)="back()">
+  <ng-template pTemplate="header">
+    <i *ngIf="id===''" class="pi pi-user-plus mr-2"></i>
+    <i *ngIf="id!=''" class="pi pi-user-edit mr-2"></i>
+    <h2 class="panel-header">{{panelHeader}}</h2>
+  </ng-template>
+  <small [innerHTML]="this.messageService.requiredFields"></small>
+  <p-divider></p-divider>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <label appLabel for="teacher" label="Tutor Asignado:" [required]="teacherField"></label>
+      <p-dropdown id="teacher"
+      formControlName="teacher"
+      dataKey="id"
+      [options]="teachers"
+      optionLabel="name"
+      [filter]="true"
+      filterBy="name"
+      placeholder="Seleccionar Tutor">
+        <ng-template pTemplate="selectedItem">
+        <div *ngIf="teacherField.value">
+        <div>{{teacherField.value.name}}</div>
+        </div>
+        </ng-template>
+        <ng-template pTemplate="item" let-item>
+        {{item.name}}
+        </ng-template>
+        </p-dropdown>
+              <small appErrorMessage
+                    [errors]="teacherField.errors"
+                    [touched]="teacherField.touched"
+                    [dirty]="teacherField.dirty">
+              </small>
+
+
+     <!--  name -->
+      <div class="field">
+        <label appLabel for="name" label="Nombre del Proyecto:" [required]="nameField"></label>
+        <input pInputText type="text" id="name" formControlName="name"/>
+        <small appErrorMessage
+               [errors]="nameField.errors"
+               [touched]="nameField.touched"
+               [dirty]="nameField.dirty">
+        </small>
+      </div>
+        <!-- title -->
+      <div class="field">
+        <label appLabel for="title" label="Sub-Modulos del Proyecto:" [required]="titleField"></label>
+        <input pInputText type="text"  id="title" formControlName="title">
+        <small appErrorMessage
+               [errors]="titleField.errors"
+               [touched]="titleField.touched"
+               [dirty]="titleField.dirty">
+        </small>
+      </div>
+
+      <!-- description -->
+      <div class="field">
+        <label appLabel for="description" label="Descripción del Proyecto:" [required]="descriptionField"></label>
+        <input pInputText type="text"  id="description" formControlName="description">
+        <small appErrorMessage
+               [errors]="descriptionField.errors"
+               [touched]="descriptionField.touched"
+               [dirty]="descriptionField.dirty">
+        </small>
+      </div>
+      <div class="formgrid grid">
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label appLabel for="date" label="Fecha de Inicio:" [required]="startDateField"></label>
+          <p-calendar [showIcon]="true" formControlName="startDate" id="startDate" dateFormat="dd/mm/yy"></p-calendar>
+          <small appErrorMessage [errors]="startDateField.errors" [touched]="startDateField.touched"
+            [dirty]="startDateField.dirty">
+          </small>
+        </div>
+        <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+          <label appLabel for="date" label="Fecha Fín:" [required]="endDateField"></label>
+          <p-calendar [showIcon]="true"  formControlName="endDate" id="endDate" dateFormat="dd/mm/yy"></p-calendar>
+          <small appErrorMessage [errors]="endDateField.errors" [touched]="endDateField.touched"
+            [dirty]="endDateField.dirty">
+          </small>
+        </div>
+      </div>
+
+    <!-- state -->
+    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <label appLabel for="state" label="Estado del Proyecto:" [required]="stateField"></label>
+      <p><p-inputSwitch formControlName="state"></p-inputSwitch></p>
+  <small appErrorMessage
+             [errors]="stateField.errors"
+             [touched]="stateField.touched"
+             [dirty]="stateField.dirty">
+    </small>
+    </div>
+
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button pButton pRipple id="btnBack" type="button"
+                label="Cancelar"
+                class="p-button-info p-button-outlined"
+                icon="pi pi-arrow-left"
+                [loading]="(loaded$|async)!"
+                (click)="back()"></button>
+      </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button pButton pRipple id="submit" type="submit"
+                label="Guardar"
+                icon="pi pi-save"
+                [loading]="(loaded$|async)!"></button>
+      </div>
+    </div>
+  </form>
+</p-panel>

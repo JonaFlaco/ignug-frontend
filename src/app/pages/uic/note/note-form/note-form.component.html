@@ -1,0 +1,153 @@
+<app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
+<p-panel *ngIf="!isLoadingSkeleton"
+         class="p-fluid"
+         collapseIcon="pi pi-times"
+         [toggleable]="true"
+         (collapsedChange)="back()">
+  <ng-template pTemplate="header">
+    <i *ngIf="id===''" class="pi pi-user-plus mr-2"></i>
+    <i *ngIf="id!=''" class="pi pi-user-edit mr-2"></i>
+    <h2 class="panel-header">{{panelHeader}}</h2>
+  </ng-template>
+  <small [innerHTML]="this.messageService.requiredFields"></small>
+  <p-divider></p-divider>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <!-- studentInformation-->
+    <div class="formgrid grid">
+    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <label appLabel for="studentInformation" label="Estudiante:" [required]="studentInformationField"></label>
+      <p-dropdown id="studentInformation" formControlName="studentInformation" [disabled]="id!=''" dataKey="id" [options]="studentInformations"
+        optionLabel="name" [filter]="true" filterBy="name" placeholder="Seleccionar Estudiante">
+        <ng-template pTemplate="selectedItem">
+          <div *ngIf="studentInformationField.value">
+            <div>{{studentInformationField.value.name}}</div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="item" let-item>
+          {{item.name}}
+        </ng-template>
+      </p-dropdown>
+      <small appErrorMessage [errors]="studentInformationField.errors" [touched]="studentInformationField.touched"
+        [dirty]="studentInformationField.dirty">
+      </small>
+    </div>
+    <!-- projectBench-->
+    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <label appLabel for="projectBench" label="Proyecto Asignado:" [required]="projectBenchField"></label>
+      <p-dropdown id="projectBench" formControlName="projectBench" [disabled]="id!=''" dataKey="id" [options]="projectBenchs"
+        optionLabel="name" [filter]="true" filterBy="name" placeholder="Seleccionar Proyecto">
+        <ng-template pTemplate="selectedItem">
+          <div *ngIf="projectBenchField.value">
+            <div>{{projectBenchField.value.name}}</div>
+          </div>
+        </ng-template>
+        <ng-template pTemplate="item" let-item>
+          {{item.name}}
+        </ng-template>
+      </p-dropdown>
+      <small appErrorMessage [errors]="projectBenchField.errors" [touched]="projectBenchField.touched"
+        [dirty]="projectBenchField.dirty">
+      </small>
+    </div>
+  </div>
+      <!-- description -->
+    <div class="field">
+      <label appLabel for="description" label="Descripción del Proyecto Asignado:" [required]="descriptionField"></label>
+      <input pInputText type="text"  id="description" formControlName="description">
+      <small appErrorMessage
+             [errors]="descriptionField.errors"
+             [touched]="descriptionField.touched"
+             [dirty]="descriptionField.dirty">
+      </small>
+    </div>
+
+    <!-- NOTA -->
+    <div class="formgrid grid">
+    <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+      <label appLabel for="score" label="Revisión 1 (Nota) :" [required]="scoreField"></label>
+      <input pInputText type="number" id="score" formControlName="score"/>
+      <small appErrorMessage
+      [errors]="scoreField.errors"
+      [touched]="scoreField.touched"
+      [dirty]="scoreField.dirty">
+    </small>
+  </div>
+  <!-- NOTA 2-->
+
+  <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+    <label appLabel for="score2" label="Revisión 2 (Nota) :" [required]="score2Field"></label>
+    <input pInputText type="number" id="score2" formControlName="score2"/>
+    <small appErrorMessage
+    [errors]="score2Field.errors"
+    [touched]="score2Field.touched"
+    [dirty]="score2Field.dirty">
+  </small>
+</div>
+</div>
+<!-- Nota3 -->
+<div class="formgrid grid">
+<div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+  <label appLabel for="score3" label="Revisión 3 (Nota):" [required]="score3Field"></label>
+  <input pInputText type="number" id="score3" formControlName="score3"/>
+  <small appErrorMessage
+  [errors]="score3Field.errors"
+  [touched]="score3Field.touched"
+  [dirty]="score3Field.dirty">
+</small>
+</div>
+<!-- NOTA Final-->
+<div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+  <label appLabel for="score4" label="Nota Final :" [required]="score4Field"></label>
+  <input pInputText type="number" id="score4" formControlName="score4"/>
+  <small appErrorMessage
+  [errors]="score4Field.errors"
+  [touched]="score4Field.touched"
+  [dirty]="score4Field.dirty">
+</small>
+</div>
+</div>
+<!-- observation -->
+<div class="field">
+  <label appLabel for="observation" label="Observaciones:" [required]="observationField"></label>
+  <input pInputText type="text"  id="observation" formControlName="observation">
+  <small appErrorMessage
+         [errors]="observationField.errors"
+         [touched]="observationField.touched"
+         [dirty]="observationField.dirty">
+  </small>
+</div>
+
+<!-- catalogue -->
+<div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+  <label appLabel for="state" label="Estado del Seguimiento:" [required]="stateField"></label>
+  <p><p-inputSwitch formControlName="state"></p-inputSwitch></p>
+<small appErrorMessage
+         [errors]="stateField.errors"
+         [touched]="stateField.touched"
+         [dirty]="stateField.dirty">
+</small>
+</div>
+    <!-- Boton de cancelar -->
+
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button pButton pRipple id="btnBack" type="button"
+                label="Cancelar"
+                class="p-button-info p-button-outlined"
+                icon="pi pi-arrow-left"
+                [loading]="(loaded$|async)!"
+                (click)="back()"></button>
+      </div>
+      <!-- Boton de Guardar-->
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button pButton pRipple id="submit" type="submit"
+                label="Guardar"
+                icon="pi pi-save"
+                [loading]="(loaded$|async)!"></button>
+      </div>
+
+
+    </div>
+
+  </form>
+</p-panel>

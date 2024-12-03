@@ -1,0 +1,46 @@
+<p-divider></p-divider>
+<p-toolbar>
+  <div class="p-toolbar-group-left">
+    <button pButton pRipple id="btnBack" type="button" label="Volver" class="p-button-info mr-2"
+      icon="pi pi-arrow-left" [loading]="(loaded$|async)!" (click)="back()"></button>
+  </div>
+  <div class="p-toolbar-group-right">
+    <div class="text-center">
+      <button pButton pRipple id="btnBack" type="button" label="Cronograma de Actividades de la Modalidad Complexivo" class="p-button-info p-button-outlined  mr-2"
+      icon="pi pi-calendar"></button>
+    </div>
+  </div>
+  <div class="p-toolbar-group-right">
+    <div class="p-input-icon-right">
+
+      <head>
+        <link rel="stylesheet" type="text/css" href="cronograma.component.scss">
+      </head>
+      <h1>
+        <i class="pi pi-user"></i>
+        {{authService.auth.name}}
+      </h1>
+    </div>
+  </div>
+</p-toolbar>
+<p-divider></p-divider>
+<p-timeline [value]="events" align="alternate" styleClass="customized-timeline">
+  <ng-template pTemplate="marker" let-timeline>
+    <span class="custom-marker shadow-2"
+      [ngStyle]="{backgroundColor:'var(--primary-color)', color: 'var(--primary-color-text)', borderRadius: 'var(--border-radius)', padding: '1rem'}">
+      <i class="pi pi-calendar"></i>
+    </span>
+  </ng-template>
+  <ng-template pTemplate="content" let-timeline>
+    <p-card [header]="timeline.status" [subheader]="timeline.subheader">
+      <img alt="Card" [style]="{width: '360px'}" src="https://yavirac.edu.ec/img/slider/instalacion1-1.png">
+      <p>
+        {{timeline.content}}
+      </p>
+      <!-- <button pButton label="Read more" class="p-button-text"></button> -->
+    </p-card>
+  </ng-template>
+</p-timeline>
+
+
+<p-divider></p-divider>

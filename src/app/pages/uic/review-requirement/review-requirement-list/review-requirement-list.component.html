@@ -1,0 +1,88 @@
+<p-toolbar>
+    <p-message severity="success" text="Convocatoria:  {{planning?.name}}"></p-message>
+    <!--p-message severity="success" text="Modalidad:  {{planning?.nameModality.name}}"></p-message-->
+    <button pButton type="button" label="Actualizar lista"
+    class="p-button-info mr-2"
+    icon="pi pi-refresh"
+    (click)="findActive()"></button>
+  </p-toolbar>
+  <p-table
+    dataKey="id"
+    styleClass="p-datatable-gridlines"
+    [value]="requirements"
+    [columns]="columns"
+    [loading]="(loaded$|async)!"
+    [(selection)]="selectedRequirements"
+    [tableStyle]="{'min-width': '76rem'}"
+    [responsive]="true">
+    <ng-template pTemplate="caption">
+      <th class="text-center">
+        VALIDAR REQUERIMIENTOS
+      </th>
+  </ng-template>
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+        <th style="width: 3rem">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th *ngFor="let col of columns" [pSortableColumn]="col.field">
+          {{col.header}}
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-columns="columns" let-rowIndex="rowIndex">
+      <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex">
+        <td>
+          <p-tableCheckbox [value]="rowData"></p-tableCheckbox>
+        </td>
+
+        <td *ngFor="let col of columns">
+
+          <!--Objects-->
+          <div *ngIf="rowData[col.field]?.id" [ngSwitch]="col.field">
+            <div *ngSwitchCase="'nameCatalogue'">
+              {{rowData[col.field].name}}
+            </div>
+          </div>
+          <!--Fields-->
+           <div *ngIf="!rowData[col.field]?.id" [ngSwitch]="col.field">
+            <div *ngSwitchCase="'status'">
+              <p-tag
+              [value]="rowData[col.field]"
+              [pTooltip]="
+              rowData['maxAttempts'] === 0
+              ? 'Exceeded the maximum number of attempts allowed'
+              : ''
+              "
+              [severity]="checkState(rowData[col.field])"
+              ></p-tag>
+            </div>
+          </div>
+        </td>
+        <td class="text-center">
+          <div *ngIf="rowData['id']!==authService.auth.id; then thenBlock else elseBlock"></div>
+          <ng-template #thenBlock>
+             <p-splitButton icon="pi pi-ellipsis-v"
+                           [model]="actionButtons"
+                           (onDropdownClick)="selectRequirements(rowData)"></p-splitButton>
+
+          </ng-template>
+          <ng-template #elseBlock>Desing by Jim</ng-template>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="emptymessage" let-columns>
+      <tr>
+        <td [attr.colspan]="columns.length">
+          {{messageService.paginatorNoRecordsFound}}
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      {{messageService.paginatorTotalRegisters(paginator)}}
+    </ng-template>
+  </p-table>
+  <p-paginator
+    [rows]="paginator.limit"
+    [totalRecords]="paginator.totalItems"
+    (onPageChange)="paginate($event)"></p-paginator>

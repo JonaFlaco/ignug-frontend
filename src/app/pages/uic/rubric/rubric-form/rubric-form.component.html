@@ -1,0 +1,195 @@
+<app-skeleton *ngIf="isLoadingSkeleton" [type]="'card'"></app-skeleton>
+<p-panel
+  *ngIf="!isLoadingSkeleton"
+  class="p-fluid"
+  collapseIcon="pi pi-times"
+  [toggleable]="true"
+  (collapsedChange)="back()"
+>
+  <ng-template pTemplate="header">
+    <i *ngIf="id === ''" class="pi pi-planning-plus mr-2"></i>
+    <i *ngIf="id != ''" class="pi pi-planning-edit mr-2"></i>
+    <h2 class="panel-header">{{ panelHeader }}</h2>
+  </ng-template>
+  <small [innerHTML]="this.messageService.requiredFields"></small>
+  <p-divider></p-divider>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="formgrid grid">
+      <!-- FK ITEMS-->
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="item"
+          label="Seleccionar los items:"
+          [required]="itemField"
+        ></label>
+        <p-multiSelect
+          id="item"
+          formControlName="item"
+          dataKey="id"
+          [options]="filteredOptions"
+          display="chip"
+          optionLabel="name"
+          placeholder="Seleccionar items"
+        >
+          <ng-template pTemplate="selectedItem">
+            <div *ngIf="itemField.value">
+              <div>{{ itemField.value.name }}</div>
+            </div>
+          </ng-template>
+          <ng-template pTemplate="item" let-item>
+            {{ item.name }}
+          </ng-template>
+        </p-multiSelect>
+        <small
+          appErrorMessage
+          [errors]="itemField.errors"
+          [touched]="itemField.touched"
+          [dirty]="itemField.dirty"
+        >
+        </small>
+      </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="criterio"
+          label="Criterio :"
+          [required]="criterioField"
+        ></label>
+        <input
+          pInputText
+          type="string"
+          id="criterio"
+          formControlName="criterio"
+        />
+        <small
+          appErrorMessage
+          [errors]="criterioField.errors"
+          [touched]="criterioField.touched"
+          [dirty]="criterioField.dirty"
+        >
+        </small>
+      </div>
+    </div>
+
+    <!-- CRITERIO -->
+
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="criterio2"
+          label="Criterio 2 :"
+          [required]="criterio2Field"
+        ></label>
+        <input
+          pInputText
+          type="string"
+          id="criterio2"
+          formControlName="criterio2"
+        />
+        <small
+          appErrorMessage
+          [errors]="criterio2Field.errors"
+          [touched]="criterio2Field.touched"
+          [dirty]="criterio2Field.dirty"
+        >
+        </small>
+      </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="criterio3"
+          label="Criterio 3:"
+          [required]="criterio3Field"
+        ></label>
+        <input
+          pInputText
+          type="string"
+          id="criterio3"
+          formControlName="criterio3"
+        />
+        <small
+          appErrorMessage
+          [errors]="criterio3Field.errors"
+          [touched]="criterio3Field.touched"
+          [dirty]="criterio3Field.dirty"
+        >
+        </small>
+      </div>
+    </div>
+
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="criterio4"
+          label="Criterio 4:"
+          [required]="criterio4Field"
+        ></label>
+        <input
+          pInputText
+          type="string"
+          id="criterio4"
+          formControlName="criterio4"
+        />
+        <small
+          appErrorMessage
+          [errors]="criterio4Field.errors"
+          [touched]="criterio4Field.touched"
+          [dirty]="criterio4Field.dirty"
+        >
+        </small>
+      </div>
+
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <label
+          appLabel
+          for="criterio5"
+          label="Criterio 5:"
+          [required]="criterio5Field"
+        ></label>
+        <input
+          pInputText
+          type="string"
+          id="criterio5"
+          formControlName="criterio5"
+        />
+        <small
+          appErrorMessage
+          [errors]="criterio5Field.errors"
+          [touched]="criterio5Field.touched"
+          [dirty]="criterio5Field.dirty"
+        >
+        </small>
+      </div>
+    </div>
+    <!-- BOTONES DE GUARDAR Y CANCELAR-->
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button
+          pButton
+          pRipple
+          id="btnBack"
+          type="button"
+          label="Cancelar"
+          class="p-button-info p-button-outlined"
+          icon="pi pi-arrow-left"
+          [loading]="(loaded$ | async)!"
+          (click)="back()"
+        ></button>
+      </div>
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button
+          pButton
+          pRipple
+          id="submit"
+          type="submit"
+          label="Guardar"
+          icon="pi pi-save"
+          [loading]="(loaded$ | async)!"
+        ></button>
+      </div>
+    </div>
+  </form>
+</p-panel>

@@ -1,0 +1,36 @@
+<!-- <p-paginator [rows]="paginator.limit" [totalRecords]="paginator.totalItems" (onPageChange)="paginate($event)"></p-paginator> -->
+<p-toolbar>
+  <!-- <p-message severity="success" text="Convocatoria:  {{planning}}"></p-message> -->
+  <button *ngIf="paginator?.totalItems<1" pButton type="button" label="Refresh" class="p-button-info mr-2" icon="pi pi-refresh" ></button>
+  <div class="p-input-icon-right">
+  <h2><i class="pi pi-user"></i>
+    {{authService.auth.name}}</h2></div>
+</p-toolbar>
+
+<div class="card-responsive" class="formgrid grid">
+
+<div class="field xl:col-4 lg:col-4 md:col-4 sm:col-12" *ngFor="let career of careers">
+<p-card header="{{career.name}}" subheader="Carreras" [style]="{width: '360px'}" styleClass="p-card-shadow">
+  <ng-template pTemplate="header">
+      <img alt="Card" src="https://yavirac.edu.ec/img/slider/instalacion1-1.png">
+  </ng-template>
+  <p>{{career.degree}}</p>
+  <ng-template pTemplate="footer">
+    <div class="formgrid grid">
+      <div class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <p-button label="Visualizar Rubrica"
+        (click)="redirectRubrics(career)" icon="pi pi-eye"></p-button>
+      </div>
+      <div *ngIf="showRubric()" class="field xl:col-6 lg:col-6 md:col-6 sm:col-12">
+        <button pButton type="button" label="Registrar Rubricas"
+         class="p-button-success mr-2"
+         icon="pi pi-plus"
+         (click)="redirectCreateForm(career)"></button>
+      </div>
+
+    </div>
+
+  </ng-template>
+</p-card>
+</div>
+</div>
